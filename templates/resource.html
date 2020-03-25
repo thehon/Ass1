@@ -1,0 +1,18 @@
+<ul>
+    <li>
+        <p>
+            {{ resource.resourceName}}
+        </p>
+        <p>
+            {{ resource.resourceDescription}}
+        </p>
+        <p>Resource Link: {{ resource.resourceLink }}</p>
+    </li>
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>{{comment.body}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</ul>

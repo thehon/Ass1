@@ -8,5 +8,6 @@ urlpatterns = [
     path('courses/', views.CourseList, name="All Courses"),
     path('courses/search/<slug:slug>', views.CourseSearch, name="Search Courses"),
     path('courses/<slug:code>', views.singleCourse, name="Course"),
-    path('courses/<slug:code>/<int:id>', views.singleResource, name='Resource')   
+    path('courses/<slug:code>/<int:id>', views.singleResource, name='Resource'),
+    path('', views.homeProfile, name='home')   
 ]
