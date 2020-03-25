@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Course, Resource, Comment, Profile
+from django.contrib.auth import authenticate, login
+
 # Create your views here.
 
 def CourseList(request):
@@ -46,7 +48,18 @@ def homeProfile(request):
     else:
         user = Profile.objects.get(user = user)
         courses = user.courses
+        print('courses: ',courses)
         context = {
-            'courses': courses
+            'courses': courses.all()
         }
-        return render(request, 'base.html', context=context)
+        return render(request, 'index.html', context=context)
+
+def loginView(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request,user)
+        return (render, request, 'base.html')
+    else:
+        return (render, request, 'login.html')

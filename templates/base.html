@@ -1,1 +1,13 @@
-{{ request }}
+{% if user.is_authenticated %}
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/messages">Messages</a></li>
+        <li><a href="/profile">Profile</a></li>
+    </ul>
+    {% block indexcontent %}
+    {% endblock %}
+{% else %}
+    <h1>Login Bitch</h1>
+{% endif %}    
+

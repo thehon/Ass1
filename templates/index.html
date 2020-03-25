@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block indexcontent %}
+    <form action="ed/search" method="post">
+        <label for="search">Search Courses</label>
+        <input id="search" name="search" type="text" >
+        <input type="submit" value="Search">
+    </form>
+    {% if courses %}
+        <div class="courses Container">
+            {% for course in courses %}
+                <div class="course">
+                    {{course}}
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <h1>No courses</h1>
+    {% endif %}
+{% endblock %}
