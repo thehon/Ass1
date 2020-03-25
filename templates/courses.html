@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Home page</title>
+</head>
+
+<body>
+    {% if courses %}
+        <ul>
+            {% for course in courses %}
+                <li>{{course.courseCode}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>

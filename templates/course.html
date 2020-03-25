@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Home page</title>
+</head>
+
+<body>
+    {% if course %}
+        <ul>
+            <li>{{course.courseCode}}</li>
+        </ul>
+    {% endif %}
+    {% if resources %}
+        <ul>
+            {% for resource in resources %}
+                <li>{{resource.id}} </li>
+                <li>{{resource.resourceName }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
