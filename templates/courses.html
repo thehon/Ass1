@@ -2,17 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Home page</title>
+  <title>Courses</title>
 </head>
 
 <body>
+    <form action="/ed/courses/search" method="post">
+        {% csrf_token %}
+        <label for="search">Search Courses</label>
+        <input id="search" name="search" type="text" >
+        <input type="submit" value="Search">
+    </form>
     {% if courses %}
         <ul>
             {% for course in courses %}
-                <li>{{course.courseCode}}</li>
+                <li><a href="{{course.courseCode}}">{{course.courseCode}}</a></li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>Couldnt find any searches.. try again</p>
+        <p>Couldnt find any courses.. try again</p>
     {% endif %}
 </body>
