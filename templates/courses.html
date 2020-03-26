@@ -1,18 +1,39 @@
 {% extends "core.html" %}
 {% block content %}
-    <form action="/ed/courses/search" method="post">
-        {% csrf_token %}
-        <label for="search">Search Courses</label>
-        <input id="search" name="search" type="text" >
-        <input type="submit" value="Search">
-    </form>
+ <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 2rem">
+    <div class="row">
+        <div class="col-12">
+        <form action="/ed/courses/search" method="post" style="display: flex; justify-content: center">
+            {% csrf_token %}
+            <div class="search-box" style="width:70%; display: flex">
+                <label for="search" style="width: 30%; text-align: center">Search Courses</label>
+                <input id="search" name="search" type="text" style="width: 60%">
+
+            </div>
+            <input type="submit" value="Search" style="width: auto">
+        </form>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    
     {% if courses %}
-        <ul>
-            {% for course in courses %}
-                <li><a href="{{course.courseCode}}">{{course.courseCode}}</a></li>
-            {% endfor %}
+        <ul class="list-group">
+        {% for course in courses %}
+            
+            <li class="list-group-item" style="display: flex">
+                <a href="{{course.courseCode}}">{{course.courseCode}}: {{course.courseName}}</a>
+                <div class="ctas" style="margin-left: auto">
+                    <a class="btn btn-primary" href="/ed/courses/{{course.courseCode}}">
+                        View Course
+                    </a>
+                </div>
+            </li>
+            
+        {% endfor %}
         </ul>
     {% else %}
         <p>Couldnt find any courses.. try again</p>
     {% endif %}
+<div>
 {% endblock %}
