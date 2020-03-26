@@ -83,7 +83,7 @@ def singleCourse(request, code):
         }
         return render(request, 'course.html', context=context)
 
-def singleResource(request,code, id):
+def singleResource(request,code, id):    
     resource = Resource.objects.get(id=id)
     try:
         comments = Comment.objects.get(resource=resource)
@@ -133,3 +133,14 @@ def register(request):
     else:
         return render(request, 'register.html')
 
+def addResource(request, code):
+    resourcename = request.POST['resourcename']
+    resourcedesc = request.POST['resourcedesc']
+    resourcelink = request.POST['resourcelink']
+    code = request.POST['coursecode']
+    course = Course.objects.get(courseCode=code)
+
+    r = Resource(course=course, resourceName=resourcename, resourceDescription=resourcedesc, resourceLink=resourcelink)
+    r.save()
+
+    return render(request, 'index.html')

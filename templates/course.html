@@ -43,15 +43,70 @@
 
         </div>
         <div class="tab-pane show" id="resources" role="tabpanel" aria-labelledby="resources-tab">
+            <div class="container">
             {% if resources %}
-                <ul>
+                <div class="row" style="margin-top:2rem">
                     {% for resource in resources %}
-                        <li>Resource</li>
-                        <li>Name: {{resource.resourceName }}</li>
-                        <li>Description: {{resource.resourceDescription}}</li>
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{resource.resourceName }}
+                                </h5>
+                                
+                                <p class="card-text">
+                                    {{resource.resourceDescription}}
+                                </p>
+                                <div class="btn-group">
+                                    <a href="{{resource.resourceLink}}" class="btn btn-primary" target="blank">
+                                        View Resource
+                                    </a>
+                                    <a href="#" class="btn btn-secondary">
+                                        View Discussion
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                </ul>
-        {% endif %}
+                </div>
+            {% endif %}
+            </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal">
+            Add a resource
+        </button>
+        <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="resourceModalLabel">Add a resource</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/ed/courses/{{course.courseCode}}/resource" method="post">
+                        <label for="resourcename">Resource Name: </label>
+                        <input id="resourcename" type="text" name="resourcename">
+                        <label for="resourcedesc">Resource Description:</label>
+                        <input id="resourcedesc" type="text" name="resourcedesc">
+                        
+                        <label for="resourcelink">Resource Link:</label>
+                        <input id="resourcelink" type="url" name="resourcelink">
+
+                        <input id="coursecode" type="hidden" name='coursecode' value={{course.courseCode}}>
+                        <input type="submit" value="Submit">
+                        {% csrf_token %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="tab-pane show active" id="members" role="tabpanel" aria-labelledby="members-tab">
 
