@@ -11,5 +11,6 @@ urlpatterns = [
     path('courses/<slug:code>/<int:id>', views.singleResource, name='Resource'),
     path('', views.homeProfile, name='home'),    
     path('register', views.register, name="Register"),
-    path('accounts/', include('django.contrib.auth.urls'))   
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', views.loginView, name="login")   
 ]

@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/ed/login/'
+LOGIN_URL = '/ed'
 
 LOGIN_REDIRECT_URL = '/ed'
 STATICFILES_DIRS = (
