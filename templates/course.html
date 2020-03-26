@@ -8,8 +8,12 @@
 <body>
     {% if course %}
         <ul>
+            <li>Course Found</li>
             <li>{{course.courseCode}}</li>
+            <li>{{course.courseName}}</li>
         </ul>
+    {% else %}
+        <h1>Course Not Found</h1>
     {% endif %}
     {% if resources %}
         <ul>

@@ -12,20 +12,37 @@ def CourseList(request):
     }
     return render(request, 'courses.html', context=context)
 
-def CourseSearch(request, slug):
-    queryset = Course.objects.filter(courseName__icontains=slug)
-    template_name = 'courses'
+def CourseSearch(request):
+    slug = request.POST['search']
+    
+    try:
+        queryset = Course.objects.filter(courseName__icontains=slug)
+        print('queryset: ', queryset)
+        courses = queryset.all()
+    except:
+        queryset = {}
+        courses = {}    
     context = {
-        'courses': queryset.all()
+        'courses': courses,
+        'slug': slug
     }
     return render(request, 'courses.html', context=context)
 
 def singleCourse(request, code):
-    course = Course.objects.get(courseCode=code)
-    resources = Resource.objects.filter(course=course)
+    try: 
+        course = Course.objects.get(courseCode=code)
+        courses = course.all()
+    except:
+        courses = None
+    try:
+        resources = Resource.objects.filter(course=course)
+        resources = resources.all()
+    except:
+        resources = None
+
     context = {
-        'course': course,
-        'resources': resources.all()
+        'course': courses,
+        'resources': resources
     }
     return render(request, 'course.html', context=context)
 

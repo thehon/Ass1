@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block indexcontent %}
-    <form action="ed/search" method="post">
+    <form action="/ed/courses/search" method="post">
+        {% csrf_token %}
         <label for="search">Search Courses</label>
         <input id="search" name="search" type="text" >
         <input type="submit" value="Search">
