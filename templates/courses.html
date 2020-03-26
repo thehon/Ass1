@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Courses</title>
-</head>
-
-<body>
+{% extends "core.html" %}
+{% block content %}
     <form action="/ed/courses/search" method="post">
         {% csrf_token %}
         <label for="search">Search Courses</label>
@@ -21,4 +15,4 @@
     {% else %}
         <p>Couldnt find any courses.. try again</p>
     {% endif %}
-</body>
+{% endblock %}

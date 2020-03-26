@@ -103,8 +103,9 @@ def homeProfile(request):
         user = Profile.objects.get(user = user)
         courses = MemberShip.objects.filter(person=user)
         courses = courses.values_list('course', flat=True)
+        courseItems = Course.objects.filter(id__in=courses)
         context = {
-            'courses': courses
+            'courses': courseItems.all()
         }
         return render(request, 'index.html', context=context)
 
