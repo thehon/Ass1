@@ -27,3 +27,4 @@ class Resource(models.Model):
 class Comment(models.Model):
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)

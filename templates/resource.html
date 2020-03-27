@@ -1,18 +1,34 @@
-<ul>
-    <li>
-        <p>
+{% extends "core.html" %}
+{% block content %}
+<div class="card">    
+    <div class="card-body">
+        <h5 class="card-title">
             {{ resource.resourceName}}
+        </h5>
+        <p class="card-text">
+            {{ resource.resourceDescription}}        
         </p>
-        <p>
-            {{ resource.resourceDescription}}
-        </p>
-        <p>Resource Link: {{ resource.resourceLink }}</p>
-    </li>
+        <a href="{{resource.resourceLink}}" target='_blank'>
+            Resource Link
+        </a>
+    </div>    
+</div>
+<div class="container-fluid">
     {% if comments %}
-        <ul>
+        <ul class='list-group'>
             {% for comment in comments %}
-                <li>{{comment.body}}</li>
+                <li class="list-group-item">
+                    {{comment.body}}, {{comment.user.FirstName}}
+                </li>
             {% endfor %}
         </ul>
     {% endif %}
-</ul>
+    <form action="/ed/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="display: flex; justify-content: center">
+        {% csrf_token %}
+        <label for="comment" >Add comment</label>
+        <input id="comment" name="comment" type="text">
+        <input id="resource" name="resource" type="hidden" value="{{resource.id}}">
+        <input type="submit" value="Search" style="width: auto" class="btn btn-primary">
+    </form>
+</div>
+{% endblock %}

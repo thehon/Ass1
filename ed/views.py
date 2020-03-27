@@ -84,16 +84,33 @@ def singleCourse(request, code):
         return render(request, 'course.html', context=context)
 
 def singleResource(request,code, id):    
-    resource = Resource.objects.get(id=id)
-    try:
-        comments = Comment.objects.get(resource=resource)
-    except:
-        comments = {}
-    context = {
-        'resource': resource,
-        'comments': comments
-    }
-    return render(request, 'resource.html', context=context)
+    if not request.POST:
+        resource = Resource.objects.get(id=id)
+        try:
+            comments = Comment.objects.get(resource=resource)
+        except:
+            comments = {}
+        context = {
+            'resource': resource,
+            'comments': comments
+        }
+        return render(request, 'resource.html', context=context)
+    else:
+        user = request.user
+        body = request.POST['comment']
+        resource = request.POST['resource']
+        resourceObject = Resource.objects.get(id=resource)
+        profile = Profile.objects.get(user=user)
+        c = Comment(resource=resourceObject, body=body, user=profile)
+        c.save()
+
+        comments = Comment.objects.filter   (resource=resource)
+        context = {
+            'resource': resourceObject,
+            'comments': comments.all()
+        }
+        return render(request, 'resource.html', context=context)
+
 
 def homeProfile(request):    
     user = request.user
