@@ -1,10 +1,10 @@
 {% extends "core.html" %}
 {% block content %}
 
-{% if groups %}
-    {% for group in groups %}
+{% if members %}
+    {% for member in members %}
         <ul>
-            <li>{{group}}</li>
+            <li>{{member}}</li>
         </ul>
     {% endfor %}
 {% endif %}

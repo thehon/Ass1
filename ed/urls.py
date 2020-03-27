@@ -14,5 +14,6 @@ urlpatterns = [
     path('register', views.register, name="Register"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('login/', views.loginView, name="login"),
-    path('messages/', views.messages, name="messages")      
+    path('messages/', views.messages, name="messages"),
+    path('messages/<int:id>', views.message, name="message")      
 ]
