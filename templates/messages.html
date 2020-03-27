@@ -4,7 +4,7 @@
 {% if members %}
     {% for member in members %}
         <ul>
-            <li>{{member}}</li>
+            <li><a href="{{member.id}}">{{member.FirstName}}</a></li>
         </ul>
     {% endfor %}
 {% endif %}

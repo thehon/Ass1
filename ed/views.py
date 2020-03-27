@@ -172,19 +172,22 @@ def messages(request):
     groups = Group.objects.filter(id__in=chatmemberships)
     #groups = groups profile is apart of
     members = groups.values_list('members', flat=True)    
+    ps = Profile.objects.filter(id__in=members)
+
     context = {
-        'members': members
+        'members': ps.all()
     }
     return render(request, 'messages.html', context=context)
 
 def message(request,id):
     profile = Profile.objects.get(user=request.user)
     otherID = Profile.objects.get(id=id)
-    chat = Group.objects.filter(members__in=profile.id)
-    chat = chat.objects.filter(members__in=otherID.id)
-
+    chat = Group.objects.filter(members=profile.id)
+    chat = chat.filter(members=id)
+    messages = chat.values_list('messages', flat=True)
+    msg = Message.objects.filter(id__in=messages)
     context= {
-        'chat' : chat.all()
+        'messages' : msg
     }
-    return render(request, 'message', context=context)
+    return render(request, 'message.html', context=context)
 
