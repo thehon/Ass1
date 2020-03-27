@@ -132,7 +132,7 @@ def loginView(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request,user)
-        return render(request, 'base.html')
+        return render(request, 'index.html')
     else:
         return render(request, 'index.html')
 
