@@ -1,8 +1,29 @@
-<form action="/ed/login/" method="post">
-    <label for="username">Username: </label>
-    <input id="username" type="text" name="username">
-    <label for="password">Password:</label>
-    <input id=="password" type="password" name="password">
-    <input type="submit" value="Submit">
-    {% csrf_token %}
-</form>
+{% extends "core.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <div class="card">
+                <form action="/ed/login/" method="post" style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="form-group">
+                        <label for="username">Username: </label>
+                        <input id="username" type="text" name="username" style="width:100%">
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input id="password" type="password" name="password" style="width:100%">
+                    </div>
+                
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+        <div class="col-5"></div>
+    </div>
+</div>
+
+
+{% endblock %}

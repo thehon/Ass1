@@ -87,7 +87,7 @@ def singleResource(request,code, id):
     if not request.POST:
         resource = Resource.objects.get(id=id)
         try:
-            comments = Comment.objects.get(resource=resource)
+            comments = Comment.objects.filter(resource=resource)
         except:
             comments = {}
         context = {

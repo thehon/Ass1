@@ -5,12 +5,14 @@
         <div class="col-12">
         <form action="/ed/courses/search" method="post" style="display: flex; justify-content: center">
             {% csrf_token %}
-            <div class="search-box" style="width:70%; display: flex">
-                <label for="search" style="width: 30%; text-align: center">Search Courses</label>
-                <input id="search" name="search" type="text" style="width: 60%">
+            <div class="form-group" style="display: flex;">
+            
+                <label for="search" style="text-align: center">Search Courses</label>
+                <input id="search" name="search" type="text" >
 
+            
+            <input type="submit" value="Search" style="width: auto" class="btn btn-primary">
             </div>
-            <input type="submit" value="Search" style="width: auto">
         </form>
         </div>
     </div>
@@ -24,21 +26,24 @@
                             <div class="card-content">
                                 <a href="/ed/courses/{{course.courseCode}}">
                                     <h4 class="card-title">
-                                        {{course.courseName}}
+                                        {{course.courseCode}}: {{course.courseName}}
                                     </h4>
-                                    <a href="/ed/courses/{{course.courseCode}}" class="btn btn-primary">
-                                        View Course
-                                    </a>
-                                    <form action="/ed/courses/{{course.courseCode}}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" name="code" value="{{course.courseCode}}" class="btn btn-secondary">
-                                            {% if subscribed %}
-                                                Remove from your courses
-                                            {% else %}
-                                                Add to your courses
-                                            {% endif %}
-                                        </button>
-                                    </form>
+                                    
+                                    <div class="btn-group">
+                                        <a href="/ed/courses/{{course.courseCode}}" class="btn btn-primary">
+                                            View Course
+                                        </a>
+                                        <form action="/ed/courses/{{course.courseCode}}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" name="code" value="{{course.courseCode}}" class="btn btn-secondary">
+                                                {% if subscribed %}
+                                                    Remove from your courses
+                                                {% else %}
+                                                    Add to your courses
+                                                {% endif %}
+                                            </button>
+                                        </form>
+                                    </div>
                                 </a>
                             </div>                        
                         </div>

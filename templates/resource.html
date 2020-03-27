@@ -17,18 +17,27 @@
     {% if comments %}
         <ul class='list-group'>
             {% for comment in comments %}
-                <li class="list-group-item">
-                    {{comment.body}}, {{comment.user.FirstName}}
+                <li class="list-group-item" style="display: flex;">
+                    <div class="comment-body">
+                    {{comment.body}}
+                    </div> 
+                    <div class="comment-author" style="margin-left: auto;">
+                        {{comment.user.FirstName}} {{comment.user.LastName}}
+                    </div>
                 </li>
             {% endfor %}
         </ul>
     {% endif %}
-    <form action="/ed/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="display: flex; justify-content: center">
+    <form action="/ed/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
         {% csrf_token %}
-        <label for="comment" >Add comment</label>
-        <input id="comment" name="comment" type="text">
-        <input id="resource" name="resource" type="hidden" value="{{resource.id}}">
-        <input type="submit" value="Search" style="width: auto" class="btn btn-primary">
+        <div class="form-group">            
+            <label for="comment" >Add comment</label>
+            <input id="comment" name="comment" type="text" class="form-control">
+        </div>
+        <div class="form-group">            
+            <input id="resource" name="resource" type="hidden" value="{{resource.id}}">
+            <input type="submit" value="Add Comment" style="width: auto" class="btn btn-primary">
+        </div>
     </form>
 </div>
 {% endblock %}
