@@ -1,0 +1,14 @@
+{% extends "core.html" %}
+{% block content %}
+
+{% if messages %}
+    {% for chat in chats %}
+        <ul>
+            <li>{{chat.sender}}</li>
+            <li>{{chat.body}}</li>
+            <li>{{chat}}</li>
+        </ul>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}

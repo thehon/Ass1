@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Course, Resource, Comment, Profile, MemberShip
+from .models import Course, Resource, Comment, Profile, MemberShip, ChatMembership, Message, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.db.models import Q
 # Create your views here.
 
 def CourseList(request):
@@ -161,3 +162,15 @@ def addResource(request, code):
     r.save()
 
     return render(request, 'index.html')
+
+def messages(request):
+    profile = Profile.objects.get(user=request.user)
+    chats = ChatMemberShip.objects.filter(person=profile)
+    chatslist = chats.values_list('group', flat=True)
+
+    groups = Group.objects.all()
+    groups = groups.filter(id__in=chatslist)
+    context= {
+        'chats': groups.all()
+    }
+    return render(request, 'messages.html', context=context)

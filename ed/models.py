@@ -28,3 +28,15 @@ class Comment(models.Model):
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+
+class Message(models.Model):
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    body = models.TextField()
+
+class Group(models.Model):
+    members = models.ManyToManyField(Profile, through="ChatMembership")
+    messages = models.ManyToManyField(Message)
+
+class ChatMembership(models.Model):
+    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
