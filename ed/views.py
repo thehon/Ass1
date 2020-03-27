@@ -164,13 +164,9 @@ def addResource(request, code):
     return render(request, 'index.html')
 
 def messages(request):
+    #get all my messages
     profile = Profile.objects.get(user=request.user)
-    chats = ChatMemberShip.objects.filter(person=profile)
-    chatslist = chats.values_list('group', flat=True)
-
-    groups = Group.objects.all()
-    groups = groups.filter(id__in=chatslist)
-    context= {
-        'chats': groups.all()
-    }
+    chats = ChatMembership.objects.filter(person=profile)
+    
+    
     return render(request, 'messages.html', context=context)

@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+', default=1)
     FirstName = models.CharField(max_length=50,default='firstname')
@@ -31,12 +29,12 @@ class Comment(models.Model):
 
 class Message(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
-    body = models.TextField()
+    body = models.TextField()    
 
-class Group(models.Model):
-    members = models.ManyToManyField(Profile, through="ChatMembership")
+class Group(models.Model):    
     messages = models.ManyToManyField(Message)
+    members = models.ManyToManyField(Profile, through="ChatMembership", through_fields=("group","person"))
 
 class ChatMembership(models.Model):
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    person = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)

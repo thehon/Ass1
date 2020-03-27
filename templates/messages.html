@@ -1,12 +1,10 @@
 {% extends "core.html" %}
 {% block content %}
 
-{% if messages %}
-    {% for chat in chats %}
+{% if groups %}
+    {% for group in groups %}
         <ul>
-            <li>{{chat.sender}}</li>
-            <li>{{chat.body}}</li>
-            <li>{{chat}}</li>
+            <li>{{group}}</li>
         </ul>
     {% endfor %}
 {% endif %}
