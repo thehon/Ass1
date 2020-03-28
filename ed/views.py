@@ -158,8 +158,10 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         user = User.objects.create_user(username, email, password)
+        
         P = Profile(user=user, FirstName=firstName, LastName=lastName)
         P.save()
+        login(request, user)
         return render(request, 'index.html')
     else:
         return render(request, 'register.html')
