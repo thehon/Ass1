@@ -3,15 +3,34 @@
 <head>
   <meta charset="utf-8">
   <title>Courses</title>
+    {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 
 <body>
 {% if user.is_authenticated %}
-    <ul class="nav">
-        <li class="nav-item"><a class="nav-link" href="/ed">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/ed/messages">Messages</a></li>
-        <li class="nav-item"><a class="nav-link" href="/ed/profile">Profile</a></li>
+    <ul class="nav nav-pills nav-fill" style="margin-top:1rem;">
+        <li class="nav-item">
+          <a class="nav-link {% if active == 'home'%} active {% endif %}" href="/ed">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if active == 'courses'%} active {% endif %}" href="/ed/courses">
+            Courses
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if active == 'messages'%} active {% endif %}" href="/ed/messages">
+            Messages
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if active == 'profile'%} active {% endif %}" href="/ed/profile">
+            Profile
+          </a>
+        </li>
     </ul>
     {% else %}
         

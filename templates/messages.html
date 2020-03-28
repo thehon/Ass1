@@ -2,9 +2,10 @@
 {% block content %}
 
 {% if members %}
+<h1>Messages</h1>
     {% for member in members %}
-        <ul>
-            <li><a href="{{member.id}}">{{member.FirstName}}</a></li>
+        <ul class="list-group">
+            <li class="list-group-item"><a href="{{member.id}}">{{member.FirstName}} {{member.LastName}}</a></li>
         </ul>
     {% endfor %}
 {% endif %}

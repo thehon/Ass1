@@ -108,8 +108,14 @@
           </div>
 
         </div>
-        <div class="tab-pane show active" id="members" role="tabpanel" aria-labelledby="members-tab">
-
+        <div class="tab-pane show" id="members" role="tabpanel" aria-labelledby="members-tab">
+            {% if profiles %}
+                {% for member in profiles %}
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="/ed/profile/{{member.id}}">{{member.FirstName}} {{member.LastName}}</a></li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
     

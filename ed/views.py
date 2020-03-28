@@ -9,6 +9,7 @@ from django.db.models import Q
 def CourseList(request):
     queryset = Course.objects.all()
     context = {
+        'active': 'courses',
         'courses': queryset.all()
     }
     return render(request, 'courses.html', context=context)
@@ -24,6 +25,7 @@ def CourseSearch(request):
         queryset = {}
         courses = {}    
     context = {
+        'active': 'courses',
         'courses': courses,
         'slug': slug
     }
@@ -50,10 +52,15 @@ def singleCourse(request, code):
                 subscribed = False
         except: 
             subscribed = False
+        members = MemberShip.objects.filter(course=course)
+        profileIds = members.values_list('person', flat=True)
+        profiles = Profile.objects.filter(id__in=profileIds)
         context = {
             'course': course,
+            'active': 'courses',
             'resources': resources,
-            'subscribed': subscribed,            
+            'subscribed': subscribed,
+            'profiles': profiles            
         }
         return render(request, 'course.html', context=context)
     else:
@@ -79,6 +86,7 @@ def singleCourse(request, code):
             resources = None
         context = {
             'course': course,
+            'active': 'courses',
             'resources' : resources,
             'subscribed': subscribed
         }
@@ -92,6 +100,7 @@ def singleResource(request,code, id):
         except:
             comments = {}
         context = {
+            'active': 'courses',
             'resource': resource,
             'comments': comments
         }
@@ -107,6 +116,7 @@ def singleResource(request,code, id):
 
         comments = Comment.objects.filter   (resource=resource)
         context = {
+            'active': 'courses',
             'resource': resourceObject,
             'comments': comments.all()
         }
@@ -123,6 +133,7 @@ def homeProfile(request):
         courses = courses.values_list('course', flat=True)
         courseItems = Course.objects.filter(id__in=courses)
         context = {
+            'active': 'home',
             'courses': courseItems.all()
         }
         return render(request, 'index.html', context=context)
@@ -175,6 +186,7 @@ def messages(request):
     ps = Profile.objects.filter(id__in=members)
 
     context = {
+        'active': 'messages',
         'members': ps.all()
     }
     return render(request, 'messages.html', context=context)
@@ -212,6 +224,7 @@ def message(request,id):
         msg = Message.objects.filter(id__in=messages)
         context= {
             'id': id,
+            'active': 'messages',
             'messages' : msg
         }
         return render(request, 'message.html', context=context)
@@ -226,6 +239,7 @@ def message(request,id):
         msg = Message.objects.filter(id__in=messages)
         context= {
             'id': id,
+            'active': 'messages',
             'messages' : msg
         }
         return render(request, 'message.html', context=context)
@@ -237,18 +251,26 @@ def viewYourProfile(request):
     courseItems = Course.objects.filter(id__in=courses)
     context = {
         'self': True,
+        'active': 'profile',
         'profile': p,
         'courses': courseItems.all()
     }
     return render(request, 'profile.html', context=context)
 
 def viewProfile(request, id):
+    p1 = Profile.objects.get(user=request.user)
+
     p = Profile.objects.get(id=id)
+    if p == p1:
+        isself = True
+    else:
+        isself = False
+
     courses = MemberShip.objects.filter(person=p)
     courses = courses.values_list('course', flat=True)
     courseItems = Course.objects.filter(id__in=courses)
     context = {
-        'self': False,
+        'self': isself,
         'profile': p,
         'courses': courseItems.all()
     }

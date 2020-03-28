@@ -1,0 +1,12 @@
+.message {
+    display: flex;
+    flex-direction: row;
+}
+.message .message-body {
+    flex: 60%;
+}
+
+.message .message-sender {
+    flex: 40%;
+    text-align: right;
+}
