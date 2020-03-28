@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Course, Resource, Comment, Profile, MemberShip, ChatMembership, Message, Group
+from .models import Course, Resource, Comment, Profile, MemberShip, ChatMembership, Message, Group, Discussion
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -55,12 +55,14 @@ def singleCourse(request, code):
         members = MemberShip.objects.filter(course=course)
         profileIds = members.values_list('person', flat=True)
         profiles = Profile.objects.filter(id__in=profileIds)
+        discussions = Discussion.objects.filter(course=course)
         context = {
             'course': course,
             'active': 'courses',
             'resources': resources,
             'subscribed': subscribed,
-            'profiles': profiles            
+            'profiles': profiles,
+            'discussions': discussions.all()            
         }
         return render(request, 'course.html', context=context)
     else:
@@ -275,3 +277,45 @@ def viewProfile(request, id):
         'courses': courseItems.all()
     }
     return render(request, 'profile.html', context=context)
+
+def discussion(request,id):
+    if request.POST:
+        p = Profile.objects.get(user=request.user)
+        course = Course.objects.get(id=id)
+        d = Discussion(course=course, sender=p,body=request.POST['body'])
+        d.save()
+        
+        try: 
+            course = Course.objects.get(courseCode=code)
+        except:
+            course = None
+        try:
+            resources = Resource.objects.filter(course=course)
+            resources = resources.all()
+        except:
+            resources = None
+        #Try and see if you are subscribed to this course
+        try:
+            userProfile = Profile.objects.get(user=request.user)
+            exist = MemberShip.objects.filter(person=userProfile, course=course)
+            if exist:
+                subscribed = True
+            else:
+                subscribed = False
+        except: 
+            subscribed = False
+        
+        members = MemberShip.objects.filter(course=course)
+        profileIds = members.values_list('person', flat=True)
+        profiles = Profile.objects.filter(id__in=profileIds)
+        discussions = Discussion.objects.filter(course=course)
+        context = {
+            'course': course,
+            'active': 'courses',
+            'resources': resources,
+            'subscribed': subscribed,
+            'profiles': profiles,
+            'discussions': discussions.all()                     
+        }
+
+        return render(request, 'course.html', context=context)

@@ -38,3 +38,8 @@ class Group(models.Model):
 class ChatMembership(models.Model):
     person = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
+
+class Discussion(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    sender = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True)
+    body = models.TextField()
