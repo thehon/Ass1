@@ -183,11 +183,73 @@ def message(request,id):
     profile = Profile.objects.get(user=request.user)
     otherID = Profile.objects.get(id=id)
     chat = Group.objects.filter(members=profile.id)
-    chat = chat.filter(members=id)
-    messages = chat.values_list('messages', flat=True)
-    msg = Message.objects.filter(id__in=messages)
-    context= {
-        'messages' : msg
-    }
-    return render(request, 'message.html', context=context)
 
+    memberships1 = ChatMembership.objects.filter(person=profile.id)
+    memberships2 = ChatMembership.objects.filter(person=id)
+
+    groups1 = memberships1.values_list('group', flat=True)
+    groups2 = memberships2.values_list('group', flat=True)
+
+    group = list(set(groups1).intersection(groups2))
+    print("Group: ", group)
+    if group:
+        #the chat already exists
+        group = Group.objects.get(id=group[0])
+    else:
+        #the chat doesnt exist - need to create 1 (empty)
+        g = Group()
+        g.save()
+        membership1 = ChatMembership(person=profile, group=g)
+        membership2 = ChatMembership(person=otherID, group=g)
+        membership1.save()
+        membership2.save()
+        group = g
+
+
+    #chat = chat.get(members=id)
+    if not request.POST:
+        messages = group.messages.all()
+        msg = Message.objects.filter(id__in=messages)
+        context= {
+            'id': id,
+            'messages' : msg
+        }
+        return render(request, 'message.html', context=context)
+    else:
+        #it is a post
+        sender = Profile.objects.get(user=request.user)
+        m = Message(sender=sender, body=request.POST['message'])
+        m.save()
+        group.messages.add(m)
+        group.save()
+        messages = group.messages.all()
+        msg = Message.objects.filter(id__in=messages)
+        context= {
+            'id': id,
+            'messages' : msg
+        }
+        return render(request, 'message.html', context=context)
+    
+def viewYourProfile(request):
+    p = Profile.objects.get(user=request.user)
+    courses = MemberShip.objects.filter(person=p)
+    courses = courses.values_list('course', flat=True)
+    courseItems = Course.objects.filter(id__in=courses)
+    context = {
+        'self': True,
+        'profile': p,
+        'courses': courseItems.all()
+    }
+    return render(request, 'profile.html', context=context)
+
+def viewProfile(request, id):
+    p = Profile.objects.get(id=id)
+    courses = MemberShip.objects.filter(person=p)
+    courses = courses.values_list('course', flat=True)
+    courseItems = Course.objects.filter(id__in=courses)
+    context = {
+        'self': False,
+        'profile': p,
+        'courses': courseItems.all()
+    }
+    return render(request, 'profile.html', context=context)
