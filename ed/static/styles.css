@@ -10,3 +10,11 @@
     flex: 40%;
     text-align: right;
 }
+
+.member-group {
+    display: flex;
+}
+
+.member-group h3 {
+    margin-left: 1rem;
+}

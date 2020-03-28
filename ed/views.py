@@ -278,11 +278,11 @@ def viewProfile(request, id):
     }
     return render(request, 'profile.html', context=context)
 
-def discussion(request,id):
+def discussion(request,code):
     if request.POST:
         p = Profile.objects.get(user=request.user)
-        course = Course.objects.get(id=id)
-        d = Discussion(course=course, sender=p,body=request.POST['body'])
+        course = Course.objects.get(courseCode=code)
+        d = Discussion(course=course, sender=p,body=request.POST['discussionbody'])
         d.save()
         
         try: 

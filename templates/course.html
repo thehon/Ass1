@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-6">
             <div class="title" style="display: flex;">
-                <h1>{{course.courseCode}}:</h1>
-                <h2>{{course.courseName}}</h2>
+                <h1>{{course.courseCode}}:
+                {{course.courseName}}</h1>
             </div>
         </div>
         <div class="col-6" style="display: flex;">           
@@ -40,7 +40,48 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane show active" id="discussion" role="tabpanel" aria-labelledby="discussion-tab">
-            {% if discussion %}
+            {% if discussions %}
+                {% for discussion in discussions %}
+                    <ul class="list-group">
+                        <li class="list-group-item message">
+                            <div class="message-body">
+                                {{discussion.body}}
+                            </div>
+                            <div class="message-sender">
+                                {{discussion.sender.FirstName}} {{discussion.sender.LastName}}
+                            </div>
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#discussionModal">
+            Add a resource
+        </button>
+         <div class="modal fade" id="discussionModal" tabindex="-1" role="dialog" aria-labelledby="discussioneModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="discussionModalLabel">Add to discussion</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/ed/courses/{{course.courseCode}}/discussion" method="post">
+                        <label for="discussionbody">Comment:</label>
+                        <textarea id="discussionbody"  name="discussionbody"> </textarea>
+                        <input type="submit" value="Submit Comment">
+                        {% csrf_token %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="tab-pane show" id="resources" role="tabpanel" aria-labelledby="resources-tab">
             <div class="container">
@@ -110,11 +151,16 @@
         </div>
         <div class="tab-pane show" id="members" role="tabpanel" aria-labelledby="members-tab">
             {% if profiles %}
-                {% for member in profiles %}
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="/ed/profile/{{member.id}}">{{member.FirstName}} {{member.LastName}}</a></li>
-                    </ul>
-                {% endfor %}
+                <div class="member-group">
+                    {% for member in profiles %}
+                            <h3>
+                            <a href="/ed/profile/{{member.id}}" class="badge badge-primary">
+                                {{member.FirstName}} {{member.LastName}}
+                            </a>
+                            </h3>
+                
+                    {% endfor %}
+                </div>
             {% endif %}
         </div>
     </div>
