@@ -1,16 +1,15 @@
 {% extends "core.html" %}
 {% block content %}
- <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 2rem">
+ <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 3rem">
     <div class="row">
         <div class="col-12">
         <form action="/ed/courses/search" method="post" style="display: flex; justify-content: center">
             {% csrf_token %}
-            <div class="search-box" style="width:70%; display: flex">
-                <label for="search" style="width: 30%; text-align: center">Search Courses</label>
-                <input id="search" name="search" type="text" style="width: 60%">
+            <div class="search-box" style="display: flex">                
+                <input id="search" name="search" type="text">
 
             </div>
-            <input type="submit" value="Search" style="width: auto">
+            <input type="submit" value="Search Courses" style="width: auto" class="btn btn-primary">
         </form>
         </div>
     </div>
