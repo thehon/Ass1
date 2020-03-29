@@ -149,6 +149,8 @@ def singleResource(request,code, id):
 
 def homeProfile(request):
     is_admin = False
+    if not request.user.is_authenticated:
+        return render(request,'login.html')
     p = Profile.objects.get(user=request.user)
     if p.is_admin:
         is_admin = True      
