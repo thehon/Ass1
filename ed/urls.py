@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/<int:id>', views.admin, name="profile"),
     path('admin/', views.adminPage, name="Admin Page"),
     path('admin/addme', views.addme, name="Admin Page"),
+    path('logout/', views.userLogout, name="Logout"),
 ]

@@ -4,7 +4,6 @@
     <h1>Messages</h1>
         {% for message in messages %}
             <ul class="list-group ">
-                
                 <li class="list-group-item message">
                     <div class="message-body">
                         {{message.body}}
@@ -16,6 +15,13 @@
                 </li>
             </ul>
         {% endfor %}
+
+        {% else %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                No messages yet. Maybe you should send some to a friend :)
+            </li>
+        </ul>
     {% endif %}
     <form action="/messages/{{id}}" method="post" style="margin-top: 2rem;">
         {% csrf_token %}

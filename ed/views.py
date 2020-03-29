@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Course, Resource, Comment, Profile, MemberShip, ChatMembership, Message, Group, Discussion
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q,F,Sum
 # Create your views here.
 
 def CourseList(request):
@@ -118,7 +118,8 @@ def singleResource(request,code, id):
     if not request.POST:
         resource = Resource.objects.get(id=id)
         try:
-            comments = Comment.objects.filter(resource=resource)
+            comments = Comment.objects.filter(resource=resource).\
+                annotate(totalvotes = F('upvotes') - F('downvotes')).order_by('totalvotes')
         except:
             comments = {}
         context = {
@@ -129,15 +130,29 @@ def singleResource(request,code, id):
         }
         return render(request, 'resource.html', context=context)
     else:
+        #could be upvote or downvote
+        votetype = request.POST.get('votetype', False)
         user = request.user
-        body = request.POST['comment']
-        resource = request.POST['resource']
+        profile = Profile.objects.get(user=user)          
+        if votetype:
+            comment = Comment.objects.get(id=request.POST['commentID'])
+            if votetype == 'downvote':
+                comment.downvotes = comment.downvotes + 1
+            else:
+                comment.upvotes = comment.upvotes + 1
+            comment.save()
+            resource = id
+        else:                    
+            body = request.POST['comment']
+            resource = request.POST['resource']
+            resourceObject = Resource.objects.get(id=resource)
+            c = Comment(resource=resourceObject, body=body, user=profile)
+            c.save()
+        
         resourceObject = Resource.objects.get(id=resource)
-        profile = Profile.objects.get(user=user)
-        c = Comment(resource=resourceObject, body=body, user=profile)
-        c.save()
-
-        comments = Comment.objects.filter   (resource=resource)
+          
+        comments = Comment.objects.filter(resource=resource).\
+                annotate(totalvotes = F('upvotes') - F('downvotes')).order_by('totalvotes')
         context = {
             'active': 'courses',
             'resource': resourceObject,
@@ -263,7 +278,8 @@ def message(request,id):
     #chat = chat.get(members=id)
     if not request.POST:
         messages = group.messages.all()
-        msg = Message.objects.filter(id__in=messages)
+        msg = Message.objects.filter(id__in=messages).order_by('-id')
+
         context= {
             'id': id,
             'active': 'messages',
@@ -450,3 +466,34 @@ def addme(request):
             'profiles': profiles
         }
     return render(request,'admin.html', context=context)
+
+def userLogout(request):
+    user = request.user
+    logout(request)
+    return render(request, 'login.html')
+
+def handleVote(request, id):
+    if request.POST:
+        votetype = request.POST['votetype']
+        comment = Comment.objects.get(id=request.POST['commentID'])
+        if votetype == 'downvote':
+            comment.downvote = comment.downvote + 1
+        else:
+            comment.upbote = comment.upvote + 1
+    resource = Resource.objects.get(id=id)
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True
+    try:
+        comments = Comment.objects.filter(resource=resource)
+    except:
+        comments = {}
+    context = {
+        'active': 'courses',
+        'resource': resource,
+        'comments': comments,
+        'is_admin': is_admin
+    }
+    return render(request, 'resource.html', context=context)
+    

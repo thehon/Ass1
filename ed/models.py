@@ -27,6 +27,8 @@ class Comment(models.Model):
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    upvotes = models.IntegerField(default=0)
+    downvotes = models.IntegerField(default=0)
 
 class Message(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)

@@ -63,7 +63,7 @@
             <a class="nav-link active" id="discussion-tab" data-toggle="tab" href="#discussion" role="tab" aria-controls="discussion" aria-selected="true">Discussion</a>
         </li>
          <li class="nav-item">
-            <a class="nav-link" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Resources</a>
+            <a class="nav-link" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Collabs</a>
         </li>
          <li class="nav-item">
             <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
@@ -131,7 +131,7 @@
                                 </p>
                                 <div class="btn-group">
                                     <a href="{{resource.resourceLink}}" class="btn btn-primary" target="blank">
-                                        View Resource
+                                        View Link
                                     </a>
                                     <a href="/courses/{{course.courseCode}}/{{resource.id}}" class="btn btn-secondary">
                                         View Discussion
@@ -144,37 +144,43 @@
                 </div>
             {% endif %}
             </div>
+        {% if is_admin %}
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal">
-            Add a resource
+            Add Collab
         </button>
-        <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel" aria-hidden="true">
+        {% endif %}
+        <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="collabModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="resourceModalLabel">Add a resource</h5>
+                  <h5 class="modal-title" id="collabModalLabel">Add a collab</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                     <form action="/courses/{{course.courseCode}}/resource" method="post">
-                        <label for="resourcename">Resource Name: </label>
-                        <input id="resourcename" type="text" name="resourcename">
-                        <label for="resourcedesc">Resource Description:</label>
-                        <input id="resourcedesc" type="text" name="resourcedesc">
-                        
-                        <label for="resourcelink">Resource Link:</label>
-                        <input id="resourcelink" type="url" name="resourcelink">
-
-                        <input id="coursecode" type="hidden" name='coursecode' value={{course.courseCode}}>
-                        <input type="submit" value="Submit">
+                        <div class="form-group">
+                            <label for="resourcename">Collab Title: </label>
+                            <input id="resourcename" class="form-control" type="text" name="resourcename">
+                        </div>
+                        <div class="form-group">
+                            <label for="resourcedesc">Collab Description:</label>
+                            <textarea id="resourcedesc" class="form-control" type="text" name="resourcedesc"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="resourcelink">Resource Link:</label>
+                            <input id="resourcelink" class="form-control" type="url" name="resourcelink">
+                        </div>
+                        <div class="modal-footer">
+                            <input id="coursecode" type="hidden" name='coursecode' value={{course.courseCode}}>
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                        </div>
                         {% csrf_token %}
                     </form>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                
+                
               </div>
             </div>
           </div>

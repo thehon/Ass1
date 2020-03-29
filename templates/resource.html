@@ -24,6 +24,25 @@
                     <div class="comment-author" style="margin-left: auto;">
                         {{comment.user.FirstName}} {{comment.user.LastName}}
                     </div>
+                    <div class="comment-votes">
+                        <div class="downvote">
+                            <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
+                                {% csrf_token %}
+                                <input type="hidden" name="votetype" value="downvote">
+                                <input type="hidden" name='commentID' value={{comment.id}}>
+                                <input type="submit" value="downvote" class="btn btn-danger">
+                            </form>
+                        </div>
+                        {{comment.upvotes}} | {{comment.downvotes}}
+                        <div class="upvote">
+                            <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
+                                {% csrf_token %}
+                                <input type="hidden" name="votetype" value="upvote">
+                                <input type="hidden" name='commentID' value={{comment.id}}>
+                                <input type="submit" value="upvote" class="btn btn-danger">
+                            </form>
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
