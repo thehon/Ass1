@@ -23,7 +23,7 @@
                                 </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="/ed/messages/{{profile.id}}" method="post" style="margin-top: 2rem;">
+                                    <form action="/messages/{{profile.id}}" method="post" style="margin-top: 2rem;">
                                         {% csrf_token %}
                                         <div class="form-group">            
                                             <label for="message">Message</label>
@@ -59,13 +59,13 @@
                     <div class="col-4">
                         <div class="card" style="text-align: center">
                             <div class="card-content">
-                                <a href="/ed/courses/{{course.courseCode}}">
+                                <a href="/courses/{{course.courseCode}}">
                                     <h4 class="card-title">
                                         {{course.courseCode}}: {{course.courseName}}
                                     </h4>
                                     
                                     <div class="btn-group">
-                                        <a href="/ed/courses/{{course.courseCode}}" class="btn btn-primary">
+                                        <a href="/courses/{{course.courseCode}}" class="btn btn-primary">
                                             View Course
                                         </a>
                                     </div>

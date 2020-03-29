@@ -28,7 +28,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <form action="/ed/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
+    <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
         {% csrf_token %}
         <div class="form-group">            
             <label for="comment" >Add comment</label>

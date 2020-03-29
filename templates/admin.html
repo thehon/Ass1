@@ -20,7 +20,7 @@
                                 {{profile.FirstName}} {{profile.LastName}}
                             </div>
                             <div class="message-sender">
-                                <form action="/ed/admin/{{profile.id}}" method="post">                        
+                                <form action="/admin/{{profile.id}}" method="post">                        
                                     <input id="postType" type="hidden" name='postType' value="addAdmin">
                                     {% if profile.is_admin %}
                                         <input type="submit" value="Remove Admin" class="btn btn-danger">
@@ -38,7 +38,7 @@
        
         <div class="tab-pane show" id="add-course" role="tabpanel" aria-labelledby="add-course-tab">
             <div class="card">
-            <form action="/ed/admin/1" method="post">                        
+            <form action="/admin/1" method="post">                        
                 <input id="postType" type="hidden" name='postType' value="addCourse">                                
                 <div class="form-group">
                     <input type="text" placeholder="Course Code" name="courseCode">

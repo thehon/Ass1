@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="col-6" style="display: flex;">           
-            <form action="/ed/courses/{{course.courseCode}}" method="post" style="margin-left: auto">
+            <form action="/courses/{{course.courseCode}}" method="post" style="margin-left: auto">
                 {% csrf_token %}
                     {% if subscribed %}
                         <button type="submit" name="code" value="{{course.courseCode}}" class="btn btn-danger">
@@ -38,7 +38,7 @@
                         Are you sure you want to remove <br><b>{{course.courseCode}}: {{course.courseName}} ?</b><br>
                         This action <b>cannot </b> be undone.
                     </p>
-                    <form action="/ed/admin/{{course.id}}" method="post">                        
+                    <form action="/admin/{{course.id}}" method="post">                        
                         <input id="postType" type="hidden" name='postType' value="removeCourse">
                         <input type="submit" value="Remove" class="btn btn-danger">
                         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
@@ -98,7 +98,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/ed/courses/{{course.courseCode}}/discussion" method="post">
+                    <form action="/courses/{{course.courseCode}}/discussion" method="post">
                         <label for="discussionbody">Comment:</label>
                         <textarea id="discussionbody"  name="discussionbody"> </textarea>
                         <input type="submit" value="Submit Comment">
@@ -133,7 +133,7 @@
                                     <a href="{{resource.resourceLink}}" class="btn btn-primary" target="blank">
                                         View Resource
                                     </a>
-                                    <a href="/ed/courses/{{course.courseCode}}/{{resource.id}}" class="btn btn-secondary">
+                                    <a href="/courses/{{course.courseCode}}/{{resource.id}}" class="btn btn-secondary">
                                         View Discussion
                                     </a>
                                 </div>
@@ -157,7 +157,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/ed/courses/{{course.courseCode}}/resource" method="post">
+                    <form action="/courses/{{course.courseCode}}/resource" method="post">
                         <label for="resourcename">Resource Name: </label>
                         <input id="resourcename" type="text" name="resourcename">
                         <label for="resourcedesc">Resource Description:</label>
@@ -185,7 +185,7 @@
                 <div class="member-group">
                     {% for member in profiles %}
                             <h3>
-                            <a href="/ed/profile/{{member.id}}" class="badge badge-primary">
+                            <a href="/profile/{{member.id}}" class="badge badge-primary">
                                 {{member.FirstName}} {{member.LastName}}
                             </a>
                             </h3>

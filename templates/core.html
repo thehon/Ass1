@@ -13,28 +13,28 @@
 {% if user.is_authenticated %}
     <ul class="nav nav-pills nav-fill" style="margin-top:1rem; margin-bottom: 2rem;">
         <li class="nav-item">
-          <a class="nav-link {% if active == 'home'%} active {% endif %}" href="/ed">
+          <a class="nav-link {% if active == 'home'%} active {% endif %}" href="/">
             Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if active == 'courses'%} active {% endif %}" href="/ed/courses">
+          <a class="nav-link {% if active == 'courses'%} active {% endif %}" href="/courses">
             Courses
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if active == 'messages'%} active {% endif %}" href="/ed/messages">
+          <a class="nav-link {% if active == 'messages'%} active {% endif %}" href="/messages">
             Messages
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if active == 'profile'%} active {% endif %}" href="/ed/profile">
+          <a class="nav-link {% if active == 'profile'%} active {% endif %}" href="/profile">
             Profile
           </a>
         </li>
         {% if is_admin %}
         <li class="nav-item">
-          <a class="nav-link {% if active == 'admin'%} active {% endif %}" href="/ed/admin">
+          <a class="nav-link {% if active == 'admin'%} active {% endif %}" href="/admin">
             Admin
           </a>
         </li>

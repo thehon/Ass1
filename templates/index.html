@@ -3,7 +3,7 @@
 <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 2rem">
     <div class="row">
         <div class="col-12">
-        <form action="/ed/courses/search" method="post" style="display: flex; justify-content: center">
+        <form action="/courses/search" method="post" style="display: flex; justify-content: center">
             {% csrf_token %}
             <div class="form-group" style="display: flex;">
                 <label for="search" style="text-align: center">Search Courses</label>
@@ -21,12 +21,12 @@
                     <div class="col-4">
                         <div class="card" style="text-align: center">
                             <div class="card-content">
-                                <a href="/ed/courses/{{course.courseCode}}">
+                                <a href="/courses/{{course.courseCode}}">
                                     <h4 class="card-title">
                                         {{course.courseCode}}: {{course.courseName}}
                                     </h4>
                                     <div class="btn-group">
-                                        <a href="/ed/courses/{{course.courseCode}}" class="btn btn-primary">
+                                        <a href="/courses/{{course.courseCode}}" class="btn btn-primary">
                                             View Course
                                         </a>
                                     </div>

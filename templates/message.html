@@ -17,7 +17,7 @@
             </ul>
         {% endfor %}
     {% endif %}
-    <form action="/ed/messages/{{id}}" method="post" style="margin-top: 2rem;">
+    <form action="/messages/{{id}}" method="post" style="margin-top: 2rem;">
         {% csrf_token %}
         <div class="form-group">            
             <label for="message">Message</label>

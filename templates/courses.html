@@ -3,7 +3,7 @@
  <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 3rem">
     <div class="row">
         <div class="col-12">
-        <form action="/ed/courses/search" method="post" style="display: flex; justify-content: center">
+        <form action="/courses/search" method="post" style="display: flex; justify-content: center">
             {% csrf_token %}
             <div class="search-box" style="display: flex">                
                 <input id="search" name="search" type="text">
@@ -23,7 +23,7 @@
             <li class="list-group-item" style="display: flex">
                 <a href="{{course.courseCode}}">{{course.courseCode}}: {{course.courseName}}</a>
                 <div class="ctas" style="margin-left: auto">
-                    <a class="btn btn-primary" href="/ed/courses/{{course.courseCode}}">
+                    <a class="btn btn-primary" href="/courses/{{course.courseCode}}">
                         View Course
                     </a>
                 </div>
