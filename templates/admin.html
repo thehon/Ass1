@@ -1,0 +1,120 @@
+{% extends "core.html" %}
+{% block content %}
+
+<div class="container-fluid">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="add-admin-tab" data-toggle="tab" href="#add-admin" role="tab" aria-controls="discussion" aria-selected="true">Add Admin</a>
+        </li>
+            <li class="nav-item">
+            <a class="nav-link" id="resources-tab" data-toggle="tab" href="#add-course" role="tab" aria-controls="add-course" aria-selected="false">Add Course</a>
+        </li>        
+    </ul> 
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane show active" id="add-admin" role="tabpanel" aria-labelledby="add-admin-tab">
+            {% if profiles %}
+                {% for profile in profiles %}
+                    <ul class="list-group">
+                        <li class="list-group-item profile">
+                            <div class="profile-body">
+                                {{profile.FirstName}} {{profile.LastName}}
+                            </div>
+                            <div class="message-sender">
+                                <form action="/ed/admin/{{profile.id}}" method="post">                        
+                                    <input id="postType" type="hidden" name='postType' value="addAdmin">
+                                    {% if profile.is_admin %}
+                                        <input type="submit" value="Remove Admin" class="btn btn-danger">
+                                    {% else %}
+                                        <input type="submit" value="Add Admin" class="btn btn-success">
+                                    {% endif %}
+                                {% csrf_token %}
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        
+        <div class="tab-pane show" id="resources" role="tabpanel" aria-labelledby="resources-tab">
+            <div class="container">
+            {% if resources %}
+                <div class="row" style="margin-top:2rem">
+                    {% for resource in resources %}
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{resource.resourceName }}
+                                </h5>
+                                
+                                <p class="card-text">
+                                    {{resource.resourceDescription}}
+                                </p>
+                                <div class="btn-group">
+                                    <a href="{{resource.resourceLink}}" class="btn btn-primary" target="blank">
+                                        View Resource
+                                    </a>
+                                    <a href="/ed/courses/{{course.courseCode}}/{{resource.id}}" class="btn btn-secondary">
+                                        View Discussion
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal">
+            Add a resource
+        </button>
+        <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="resourceModalLabel">Add a resource</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/ed/courses/{{course.courseCode}}/resource" method="post">
+                        <label for="resourcename">Resource Name: </label>
+                        <input id="resourcename" type="text" name="resourcename">
+                        <label for="resourcedesc">Resource Description:</label>
+                        <input id="resourcedesc" type="text" name="resourcedesc">
+                        
+                        <label for="resourcelink">Resource Link:</label>
+                        <input id="resourcelink" type="url" name="resourcelink">
+
+                        <input id="coursecode" type="hidden" name='coursecode' value={{course.courseCode}}>
+                        <input type="submit" value="Submit">
+                        {% csrf_token %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="tab-pane show" id="members" role="tabpanel" aria-labelledby="members-tab">
+            {% if profiles %}
+                <div class="member-group">
+                    {% for member in profiles %}
+                            <h3>
+                            <a href="/ed/profile/{{member.id}}" class="badge badge-primary">
+                                {{member.FirstName}} {{member.LastName}}
+                            </a>
+                            </h3>
+                
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>       
+</div>
+{% endblock %}

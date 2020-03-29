@@ -32,6 +32,10 @@ def CourseSearch(request):
     return render(request, 'courses.html', context=context)
 
 def singleCourse(request, code):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True
     if not request.POST:
         try: 
             course = Course.objects.get(courseCode=code)
@@ -62,7 +66,8 @@ def singleCourse(request, code):
             'resources': resources,
             'subscribed': subscribed,
             'profiles': profiles,
-            'discussions': discussions.all()            
+            'discussions': discussions.all(),
+            'is_admin': is_admin            
         }
         return render(request, 'course.html', context=context)
     else:
@@ -90,11 +95,16 @@ def singleCourse(request, code):
             'course': course,
             'active': 'courses',
             'resources' : resources,
-            'subscribed': subscribed
+            'subscribed': subscribed,
+            'is_admin': is_admin
         }
         return render(request, 'course.html', context=context)
 
-def singleResource(request,code, id):    
+def singleResource(request,code, id):  
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     if not request.POST:
         resource = Resource.objects.get(id=id)
         try:
@@ -104,7 +114,8 @@ def singleResource(request,code, id):
         context = {
             'active': 'courses',
             'resource': resource,
-            'comments': comments
+            'comments': comments,
+            'is_admin': is_admin
         }
         return render(request, 'resource.html', context=context)
     else:
@@ -120,7 +131,8 @@ def singleResource(request,code, id):
         context = {
             'active': 'courses',
             'resource': resourceObject,
-            'comments': comments.all()
+            'comments': comments.all(),
+            'is_admin': is_admin
         }
         return render(request, 'resource.html', context=context)
 
@@ -159,7 +171,7 @@ def register(request):
         password = request.POST['password']
         user = User.objects.create_user(username, email, password)
         
-        P = Profile(user=user, FirstName=firstName, LastName=lastName)
+        P = Profile(user=user, FirstName=firstName, LastName=lastName, is_admin=False)
         P.save()
         login(request, user)
         return render(request, 'index.html')
@@ -281,6 +293,10 @@ def viewProfile(request, id):
     return render(request, 'profile.html', context=context)
 
 def discussion(request,code):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     if request.POST:
         p = Profile.objects.get(user=request.user)
         course = Course.objects.get(courseCode=code)
@@ -317,7 +333,68 @@ def discussion(request,code):
             'resources': resources,
             'subscribed': subscribed,
             'profiles': profiles,
-            'discussions': discussions.all()                     
+            'discussions': discussions.all(),
+            'is_admin': is_admin                    
         }
 
         return render(request, 'course.html', context=context)
+
+def admin(request, id):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        if request.POST:
+            postType = request.POST['postType']
+            if postType == 'addadmin':
+                #only change admin status if user is admin
+                otherUser = Profile.objects.get(id=id)
+                otherUser.is_admin = not otherUser.is_admin
+                is_admin = True
+                profiles = Profile.objects.all()
+                context = {
+                    'is_admin': is_admin,
+                    'profiles': profiles 
+                }
+                return render(request, 'admin.html', context=context)
+            if postType == 'removeCourse':
+                course = Course.objects.get(id=id)
+                if course:
+                    course.delete()
+                return render(request, 'admin.html')
+            if postType =='addCourse':
+                c = Course()
+                c.courseCode = request.POST['courseCode']
+                c.courseName = request.POST['courseName']
+                c.Save()
+                return render(request, 'admin.html')
+            if postType == 'removeDiscussion':
+                d = Discussion.objects.get(id=id)
+                if d:
+                    d.delete()
+                return render(request, 'admin.html')
+            if postType == 'removeComment':
+                c = Comment.objects.get(id=id)
+                if c:
+                    c.delete()
+                return render(request, 'admin.html')
+            if postType == 'removeResource':
+                r = Resource.objects.get(id=id)
+                if r:
+                    r.delete()
+                return render(request, 'admin.html')
+
+
+    else:
+        return render(request, 'index.html')
+
+def adminPage(request):
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        profiles = Profile.objects.all()
+        context = {
+            'is_admin': True,
+            'profiles': profiles
+        }
+        return render(request, 'admin.html', context=context)
+    else:
+        return render(request, 'index.html')

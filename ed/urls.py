@@ -19,4 +19,6 @@ urlpatterns = [
     path('messages/<int:id>', views.message, name="message"),      
     path('profile/', views.viewYourProfile, name="Your profile"),
     path('profile/<int:id>', views.viewProfile, name="profile"),
+    path('admin/<int:id>', views.admin, name="profile"),
+    path('admin/', views.adminPage, name="Admin Page"),
 ]
