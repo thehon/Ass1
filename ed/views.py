@@ -8,13 +8,22 @@ from django.db.models import Q
 
 def CourseList(request):
     queryset = Course.objects.all()
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     context = {
         'active': 'courses',
-        'courses': queryset.all()
+        'courses': queryset.all(),
+        'is_admin': is_admin
     }
     return render(request, 'courses.html', context=context)
 
 def CourseSearch(request):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     slug = request.POST['search']
     
     try:
@@ -27,7 +36,8 @@ def CourseSearch(request):
     context = {
         'active': 'courses',
         'courses': courses,
-        'slug': slug
+        'slug': slug,
+        'is_admin': is_admin
     }
     return render(request, 'courses.html', context=context)
 
@@ -137,7 +147,11 @@ def singleResource(request,code, id):
         return render(request, 'resource.html', context=context)
 
 
-def homeProfile(request):    
+def homeProfile(request):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True      
     user = request.user
     if (not request.user.is_authenticated):
         return render(request,'login.html')
@@ -148,7 +162,8 @@ def homeProfile(request):
         courseItems = Course.objects.filter(id__in=courses)
         context = {
             'active': 'home',
-            'courses': courseItems.all()
+            'courses': courseItems.all(),
+            'is_admin': is_admin
         }
         return render(request, 'index.html', context=context)
 
@@ -191,6 +206,10 @@ def addResource(request, code):
     return render(request, 'index.html')
 
 def messages(request):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     #get all my messages
     profile = Profile.objects.get(user=request.user)
     chatmemberships = ChatMembership.objects.filter(person=profile)
@@ -203,11 +222,16 @@ def messages(request):
 
     context = {
         'active': 'messages',
-        'members': ps.all()
+        'members': ps.all(),
+        'is_admin': is_admin
     }
     return render(request, 'messages.html', context=context)
 
 def message(request,id):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     profile = Profile.objects.get(user=request.user)
     otherID = Profile.objects.get(id=id)
     chat = Group.objects.filter(members=profile.id)
@@ -241,7 +265,8 @@ def message(request,id):
         context= {
             'id': id,
             'active': 'messages',
-            'messages' : msg
+            'messages' : msg,
+            'is_admin': is_admin
         }
         return render(request, 'message.html', context=context)
     else:
@@ -256,11 +281,16 @@ def message(request,id):
         context= {
             'id': id,
             'active': 'messages',
-            'messages' : msg
+            'messages' : msg,
+            'is_admin': is_admin
         }
         return render(request, 'message.html', context=context)
     
 def viewYourProfile(request):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     p = Profile.objects.get(user=request.user)
     courses = MemberShip.objects.filter(person=p)
     courses = courses.values_list('course', flat=True)
@@ -269,11 +299,16 @@ def viewYourProfile(request):
         'self': True,
         'active': 'profile',
         'profile': p,
-        'courses': courseItems.all()
+        'courses': courseItems.all(),
+        'is_admin': is_admin
     }
     return render(request, 'profile.html', context=context)
 
 def viewProfile(request, id):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
     p1 = Profile.objects.get(user=request.user)
 
     p = Profile.objects.get(id=id)
@@ -288,7 +323,8 @@ def viewProfile(request, id):
     context = {
         'self': isself,
         'profile': p,
-        'courses': courseItems.all()
+        'courses': courseItems.all(),
+        'is_admin': is_admin
     }
     return render(request, 'profile.html', context=context)
 
@@ -345,10 +381,11 @@ def admin(request, id):
     if p.is_admin:
         if request.POST:
             postType = request.POST['postType']
-            if postType == 'addadmin':
+            if postType == 'addAdmin':
                 #only change admin status if user is admin
                 otherUser = Profile.objects.get(id=id)
                 otherUser.is_admin = not otherUser.is_admin
+                otherUser.save()
                 is_admin = True
                 profiles = Profile.objects.all()
                 context = {
@@ -362,10 +399,11 @@ def admin(request, id):
                     course.delete()
                 return render(request, 'admin.html')
             if postType =='addCourse':
+                print('add Course')
                 c = Course()
                 c.courseCode = request.POST['courseCode']
                 c.courseName = request.POST['courseName']
-                c.Save()
+                c.save()
                 return render(request, 'admin.html')
             if postType == 'removeDiscussion':
                 d = Discussion.objects.get(id=id)
@@ -392,9 +430,21 @@ def adminPage(request):
     if p.is_admin:
         profiles = Profile.objects.all()
         context = {
+            'active': 'admin',
             'is_admin': True,
             'profiles': profiles
         }
         return render(request, 'admin.html', context=context)
     else:
         return render(request, 'index.html')
+
+def addme(request):
+    p = Profile.objects.get(user=request.user)
+    p.is_admin = True
+    p.save()
+    profiles = Profile.objects.all()
+    context = {
+            'is_admin': True,
+            'profiles': profiles
+        }
+    return render(request,'admin.html', context=context)

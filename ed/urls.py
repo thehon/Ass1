@@ -21,4 +21,5 @@ urlpatterns = [
     path('profile/<int:id>', views.viewProfile, name="profile"),
     path('admin/<int:id>', views.admin, name="profile"),
     path('admin/', views.adminPage, name="Admin Page"),
+    path('admin/addme', views.addme, name="Admin Page"),
 ]
