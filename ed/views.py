@@ -185,22 +185,58 @@ def homeProfile(request):
         return render(request, 'index.html', context=context)
 
 def loginView(request):
-    username = request.POST['username']
-    password = request.POST['password']
+    username = request.POST.get('username',False)
+    password = request.POST.get('password',False)
+    error = ''
+    print('username: ', username)
+    if not username:
+        error = 'Please enter a username'
+        context = {'error': error}
+        return render(request, 'login.html', context=context)
+    if not password: 
+        error = error + "Please enter a password"
+        context = {'error': error}
+        return render(request, 'login.html', context=context)
     user = authenticate(request, username=username, password=password)
+
     if user is not None:
         login(request,user)
         return render(request, 'index.html')
     else:
-        return render(request, 'login.html')
+        error = "Couldn't authenticate you. Try again"
+        context = {
+            'error': error
+        }
+        return render(request, 'login.html', context=context)
 
 def register(request):
     if request.POST:
-        username = request.POST['username']
-        firstName = request.POST['firstname']
-        lastName = request.POST['lastname']    
-        email = request.POST['email']
-        password = request.POST['password']
+        username = request.POST.get('username',False)
+        error = ""
+        if not username:
+            error = 'Please enter a username'
+            context = { 'error': error}
+            return render(request, 'register.html', context=context)    
+
+        firstName = request.POST.get('firstname',False)
+        if not firstName:
+            error = 'Please enter a username'
+        
+        lastName = request.POST.get('lastname', False)
+        if not lastName:
+            error = 'please enter a lastname'    
+        
+        email = request.POST.get('email', False)
+        if not email:
+            error = 'please enter an email'
+            
+
+        password = request.POST.get('password',False)
+        if not password:
+            error = 'please enter a password'
+        if error != "":
+            context = { 'error': error}
+            return render(request, 'register.html', context=context)    
         user = User.objects.create_user(username, email, password)
         
         P = Profile(user=user, FirstName=firstName, LastName=lastName, is_admin=False)
