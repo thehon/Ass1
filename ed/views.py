@@ -110,7 +110,7 @@ def singleCourse(request, code):
         }
         return render(request, 'course.html', context=context)
 
-def singleResource(request,code, id):  
+def singleResource(request,code, id):   
     is_admin = False
     p = Profile.objects.get(user=request.user)
     if p.is_admin:
@@ -119,7 +119,7 @@ def singleResource(request,code, id):
         resource = Resource.objects.get(id=id)
         try:
             comments = Comment.objects.filter(resource=resource).\
-                annotate(totalvotes = F('upvotes') - F('downvotes')).order_by('totalvotes')
+                annotate(totalvotes = F('upvotes') - F('downvotes')).order_by('-totalvotes')
         except:
             comments = {}
         context = {
@@ -192,7 +192,7 @@ def loginView(request):
         login(request,user)
         return render(request, 'index.html')
     else:
-        return render(request, 'index.html')
+        return render(request, 'login.html')
 
 def register(request):
     if request.POST:
