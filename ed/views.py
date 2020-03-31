@@ -113,6 +113,7 @@ def singleCourse(request, code):
 def singleResource(request,code, id):   
     is_admin = False
     p = Profile.objects.get(user=request.user)
+    error = ''
     if p.is_admin:
         is_admin = True  
     if not request.POST:
@@ -142,12 +143,17 @@ def singleResource(request,code, id):
                 comment.upvotes = comment.upvotes + 1
             comment.save()
             resource = id
-        else:                    
-            body = request.POST['comment']
-            resource = request.POST['resource']
-            resourceObject = Resource.objects.get(id=resource)
-            c = Comment(resource=resourceObject, body=body, user=profile)
-            c.save()
+        else:
+            body = request.POST.get('comment', False)
+            if not body:
+                error = 'Please enter a comment'                    
+            resource = request.POST.get("resource", False)
+            if not resource:
+                error = 'Please enter a Link'                    
+            if body and resource:
+                resourceObject = Resource.objects.get(id=resource)
+                c = Comment(resource=resourceObject, body=body, user=profile)
+                c.save()
         
         resourceObject = Resource.objects.get(id=resource)
           
@@ -157,7 +163,8 @@ def singleResource(request,code, id):
             'active': 'courses',
             'resource': resourceObject,
             'comments': comments.all(),
-            'is_admin': is_admin
+            'is_admin': is_admin,
+            'error': error
         }
         return render(request, 'resource.html', context=context)
 
@@ -247,16 +254,56 @@ def register(request):
         return render(request, 'register.html')
 
 def addResource(request, code):
-    resourcename = request.POST['resourcename']
-    resourcedesc = request.POST['resourcedesc']
-    resourcelink = request.POST['resourcelink']
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True
+    error = ''
+    resourcename = request.POST.get('resourcename', False)
+    if not resourcename:
+        error = 'Please enter a name'
+    
+    resourcedesc = request.POST.get('resourcedesc',False)
+    if not resourcedesc:
+        error = 'Please enter a description'
+    
+    resourcelink = request.POST.get('resourcelink','')
+    
     code = request.POST['coursecode']
+    
     course = Course.objects.get(courseCode=code)
-
-    r = Resource(course=course, resourceName=resourcename, resourceDescription=resourcedesc, resourceLink=resourcelink)
-    r.save()
-
-    return render(request, 'index.html')
+    if resourcename and resourcedesc:
+        r = Resource(course=course, resourceName=resourcename, resourceDescription=resourcedesc, resourceLink=resourcelink)
+        r.save()
+    try:
+        userProfile = Profile.objects.get(user=request.user)
+        exist = MemberShip.objects.filter(person=userProfile, course=course)
+        if exist:
+            subscribed = True
+        else:
+            subscribed = False
+    except: 
+        subscribed = False
+    members = MemberShip.objects.filter(course=course)
+    profileIds = members.values_list('person', flat=True)
+    profiles = Profile.objects.filter(id__in=profileIds)
+    discussions = Discussion.objects.filter(course=course)
+    try:
+        resources = Resource.objects.filter(course=course)
+        resources = resources.all()
+    except:
+        resources = None
+    context = {
+        'course': course,
+        'active': 'courses',
+        'resources': resources,
+        'subscribed': subscribed,
+        'profiles': profiles,
+        'discussions': discussions.all(),
+        'is_admin': is_admin,
+        'error': error           
+    }        
+    return render(request, 'course.html', context=context)
 
 def messages(request):
     is_admin = False
@@ -398,9 +445,13 @@ def discussion(request,code):
     if request.POST:
         p = Profile.objects.get(user=request.user)
         course = Course.objects.get(courseCode=code)
-        d = Discussion(course=course, sender=p,body=request.POST['discussionbody'])
-        d.save()
-        
+        discussion = request.POST.get('discussionbody', False)
+        error = ''
+        if not discussion:
+            d = Discussion(course=course, sender=p,body=request.POST['discussionbody'])
+            d.save()
+        else:
+            error = "Please enter discussion content"
         try: 
             course = Course.objects.get(courseCode=code)
         except:
@@ -420,7 +471,6 @@ def discussion(request,code):
                 subscribed = False
         except: 
             subscribed = False
-        
         members = MemberShip.objects.filter(course=course)
         profileIds = members.values_list('person', flat=True)
         profiles = Profile.objects.filter(id__in=profileIds)
@@ -432,9 +482,9 @@ def discussion(request,code):
             'subscribed': subscribed,
             'profiles': profiles,
             'discussions': discussions.all(),
-            'is_admin': is_admin                    
+            'is_admin': is_admin,
+            'error': error                    
         }
-
         return render(request, 'course.html', context=context)
 
 def admin(request, id):

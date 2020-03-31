@@ -103,19 +103,24 @@
                 <div class="modal-body">
                     <form action="/courses/{{course.courseCode}}/discussion" method="post">
                         <label for="discussionbody">Comment:</label>
-                        <textarea id="discussionbody"  name="discussionbody"> </textarea>
-                        <input type="submit" value="Submit Comment">
+                        <textarea id="discussionbody" class="form-control" name="discussionbody"> </textarea>
+                        <div class="modal-footer">
+                            <input type="submit" value="Submit Comment" class="btn btn-primary">
+                        </div>
                         {% csrf_token %}
                     </form>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                
+                  
+                
               </div>
             </div>
           </div>
-
+        {% if error %}
+            <p class="error">
+                {{error}}
+            </p>
+        {% endif %}
         </div>
         <div class="tab-pane show" id="resources" role="tabpanel" aria-labelledby="resources-tab">
             <div class="container content">

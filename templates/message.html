@@ -2,7 +2,12 @@
 {% block content %}
     {% if messages %}
     <div class="message-title-bar">
-        <h1 role="heading">Messages with {{otherID.FirstName}} {{otherID.LastName}}</h1>
+        <h1 role="heading">
+            Messages with
+            <a href="/profile/{{otherID.id}}">
+                {{otherID.FirstName}} {{otherID.LastName}}
+            </a>
+        </h1>
         <a href="/profile/{{otherID.id}}" role="button" class="btn btn-primary">
             View Profile
         </a>
@@ -15,8 +20,9 @@
                         {{message.body}}
                     </div>
                     <div class="message-sender">
-                        
-                        {{message.sender.FirstName}} {{message.sender.LastName}}
+                        <a href="/profile/{{otherID.id}}">
+                            {{message.sender.FirstName}} {{message.sender.LastName}}
+                        </a>
                     </div>
                     
                 </li>
