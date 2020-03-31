@@ -14,7 +14,7 @@
         <div class="tab-pane show active" id="add-admin" role="tabpanel" aria-labelledby="add-admin-tab">
             {% if profiles %}
                 {% for profile in profiles %}
-                    <ul class="list-group" role="list">
+                    <ul class="list-group profile-list" role="list">
                         <li class="list-group-item profile" role="listitem">
                             <div class="profile-body">
                                 {{profile.FirstName}} {{profile.LastName}}
@@ -37,18 +37,26 @@
         </div>
        
         <div class="tab-pane show" id="add-course" role="tabpanel" aria-labelledby="add-course-tab">
-            <div class="card">
-            <form action="/admin/1" method="post" role="form">                        
-                <input id="postType" type="hidden" name='postType' value="addCourse">                                
-                <div class="form-group">
-                    <input type="text" placeholder="Course Code" name="courseCode">
+            <div class="col-5">
+                <div class="card" style="text-align: center; padding: 1rem">
+                    <h5 class="card-title">
+                        Add a course
+                    </h5>
+                <form action="/admin/1" method="post" role="form">                        
+                    <input id="postType" type="hidden" name='postType' value="addCourse">                                
+                    <div class="form-group">
+                        <input type="text" placeholder="Course Code" name="courseCode">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Course Name" name="courseName">
+                    </div>
+                    <input type="submit" value="Add Course" class="btn btn-success" role='button'>                    
+                {% csrf_token %}
+                </form>
+                {% if error %}
+                    <p class="error">{{error}}</p>
+                {% endif %}
                 </div>
-                <div class="form-group">
-                    <input type="text" placeholder="Course Name" name="courseName">
-                </div>
-                <input type="submit" value="Add Course" class="btn btn-success" role='button'>                    
-            {% csrf_token %}
-            </form>
             </div>
             
         </div>

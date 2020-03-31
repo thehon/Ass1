@@ -55,3 +55,23 @@
 }
 
 
+.profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-list {
+    width: 50%;
+}
+
+.profile .message-sender {
+    margin-left: 1rem;
+}
+input {
+    border: 1px solid gray;
+}
+
+.error {
+    color: red;
+    font-weight: 700;
+}

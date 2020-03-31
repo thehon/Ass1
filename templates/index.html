@@ -3,12 +3,12 @@
 <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 2rem">
     <div class="row">
         <div class="col-12">
-        <form action="/courses/search" method="post" style="display: flex; justify-content: center">
+        <form action="/courses/search" method="post" role="search" aria-label="Sitewide" style="display: flex; justify-content: center">
             {% csrf_token %}
             <div class="form-group" style="display: flex;">
                 <label for="search" style="text-align: center">Search Courses</label>
-                <input id="search" name="search" type="text">
-            <input type="submit" value="Search" class="btn btn-primary">
+                <input id="search" name="search" type="search">
+            <input type="submit" value="Search" class="btn btn-primary" role="button">
             </div>
         </form>
         </div>

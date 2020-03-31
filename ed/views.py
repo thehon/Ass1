@@ -327,10 +327,15 @@ def message(request,id):
     else:
         #it is a post
         sender = Profile.objects.get(user=request.user)
-        m = Message(sender=sender, body=request.POST['message'])
-        m.save()
-        group.messages.add(m)
-        group.save()
+        messageBody = request.POST.get("message", False)
+        error = ""
+        if not messageBody or messageBody == ' ':
+            error = 'Enter a message to send'
+        else:
+            m = Message(sender=sender, body=request.POST['message'])
+            m.save()
+            group.messages.add(m)
+            group.save()
         messages = group.messages.all()
         msg = Message.objects.filter(id__in=messages)
         context= {
@@ -338,7 +343,8 @@ def message(request,id):
             'active': 'messages',
             'messages' : msg,
             'is_admin': is_admin,
-            'otherID': otherID
+            'otherID': otherID,
+            'error': error            
         }
         return render(request, 'message.html', context=context)
     
@@ -436,6 +442,8 @@ def admin(request, id):
     p = Profile.objects.get(user=request.user)
     if p.is_admin:
         if request.POST:
+            profiles = Profile.objects.all()
+            profiles = profiles.all()
             postType = request.POST['postType']
             if postType == 'addAdmin':
                 #only change admin status if user is admin
@@ -457,10 +465,22 @@ def admin(request, id):
             if postType =='addCourse':
                 print('add Course')
                 c = Course()
-                c.courseCode = request.POST['courseCode']
-                c.courseName = request.POST['courseName']
-                c.save()
-                return render(request, 'admin.html')
+                coursecode = request.POST.get('courseCode', False)
+                error = ''
+                if not coursecode:
+                    error = 'please enter a coursename'
+                coursename = request.POST.get('courseName', False)
+                if not coursename:
+                    error = 'please enter a course code'
+                if coursename and coursecode:
+                    c.courseName = coursename
+                    c.courseCode = coursecode    
+                    c.save()
+                context = {
+                    'error': error,
+                    'profiles': profiles
+                }
+                return render(request, 'admin.html',context=context)
             if postType == 'removeDiscussion':
                 d = Discussion.objects.get(id=id)
                 if d:
