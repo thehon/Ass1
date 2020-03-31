@@ -20,7 +20,9 @@
                     {% csrf_token %}
                 </form>
                 {% if error %}
-                     {{error}}
+                     <p class="error">
+                        {{error}}
+                     </p>
                 {% endif %}
                 <a href="/register" style="margin-top: 2rem; text-align: center;">
                     If you don't have an account. Please Register

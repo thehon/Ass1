@@ -237,18 +237,27 @@ def register(request):
         if not email:
             error = 'please enter an email'
             
-
+        context = {}
         password = request.POST.get('password',False)
         if not password:
             error = 'please enter a password'
         if error != "":
             context = { 'error': error}
-            return render(request, 'register.html', context=context)    
-        user = User.objects.create_user(username, email, password)
+            return render(request, 'register.html', context=context)
+        try:
+            user = User.objects.create_user(username, email, password)
+            P = Profile(user=user, FirstName=firstName, LastName=lastName, is_admin=False)
+            P.save()
+            login(request, user)     
         
-        P = Profile(user=user, FirstName=firstName, LastName=lastName, is_admin=False)
-        P.save()
-        login(request, user)
+            
+        except Exception as e:
+            if e.__class__.__name__ == 'IntegrityError':
+                error = 'This username is taken - please select a different one'
+                context = { 'error': error}
+            else:
+                context = { 'error': e.__class__.__name__}
+            return render(request, 'register.html', context=context)
         return render(request, 'index.html')
     else:
         return render(request, 'register.html')
