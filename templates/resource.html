@@ -22,24 +22,28 @@
                     {{comment.body}}
                     </div> 
                     <div class="comment-author" style="margin-left: auto;">
-                        {{comment.user.FirstName}} {{comment.user.LastName}}
+                        <a href="/profile/{{comment.user.id}}">
+                            {{comment.user.FirstName}} {{comment.user.LastName}}
+                        </a>
                     </div>
                     <div class="comment-votes">
+                        <div class="upvote">
+                            <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" >
+                                {% csrf_token %}
+                                <input type="hidden" name="votetype" value="upvote">
+                                <input type="hidden" name='commentID' value={{comment.id}}>
+                                <input type="submit" value="upvote" class="btn btn-success">
+                            </form>
+                        </div>
+                        <p>
+                            {{comment.upvotes}} | {{comment.downvotes}}
+                        </p>
                         <div class="downvote">
-                            <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
+                            <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" role='form'>
                                 {% csrf_token %}
                                 <input type="hidden" name="votetype" value="downvote">
                                 <input type="hidden" name='commentID' value={{comment.id}}>
                                 <input type="submit" value="downvote" class="btn btn-danger">
-                            </form>
-                        </div>
-                        {{comment.upvotes}} | {{comment.downvotes}}
-                        <div class="upvote">
-                            <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
-                                {% csrf_token %}
-                                <input type="hidden" name="votetype" value="upvote">
-                                <input type="hidden" name='commentID' value={{comment.id}}>
-                                <input type="submit" value="upvote" class="btn btn-danger">
                             </form>
                         </div>
                     </div>
@@ -47,7 +51,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;">
+    <form action="/courses/{{resource.course.courseCode}}/{{resource.id}}" method="post" style="margin-top: 2rem;" role="form">
         {% csrf_token %}
         <div class="form-group">            
             <label for="comment" >Add comment</label>
@@ -55,7 +59,7 @@
         </div>
         <div class="form-group">            
             <input id="resource" name="resource" type="hidden" value="{{resource.id}}">
-            <input type="submit" value="Add Comment" style="width: auto" class="btn btn-primary">
+            <input type="submit" value="Add Comment" style="width: auto" class="btn btn-primary" role="button">
         </div>
     </form>
 </div>

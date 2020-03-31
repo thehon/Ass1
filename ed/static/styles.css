@@ -75,3 +75,18 @@ input {
     color: red;
     font-weight: 700;
 }
+
+.comment-votes {
+    display: flex;
+    align-items: center;
+}
+
+.comment-votes .upvote {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.comment-votes .downvote {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
