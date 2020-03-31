@@ -5,7 +5,7 @@
         <div class="col col-lg-4"></div>
         <div class="col col-lg-4 col-12">
             <div class="card">
-                <form action="/login/" method="post" style="display: flex; flex-direction: column; align-items: center;">
+                <form action="/login/" method="post" style="display: flex; flex-direction: column; align-items: center;" role="form">
                     <div class="form-group">
                         <label for="username">Username: </label>
                         <input id="username" type="text" name="username" style="width:100%">
@@ -16,7 +16,7 @@
                         <input id="password" type="password" name="password" style="width:100%">
                     </div>
                 
-                    <input type="submit" value="Submit" class="btn btn-primary">
+                    <input type="submit" value="Submit" class="btn btn-primary" role="button">
                     {% csrf_token %}
                 </form>
                 {% if error %}

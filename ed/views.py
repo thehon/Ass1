@@ -320,7 +320,8 @@ def message(request,id):
             'id': id,
             'active': 'messages',
             'messages' : msg,
-            'is_admin': is_admin
+            'is_admin': is_admin,
+            'otherID': otherID
         }
         return render(request, 'message.html', context=context)
     else:
@@ -336,7 +337,8 @@ def message(request,id):
             'id': id,
             'active': 'messages',
             'messages' : msg,
-            'is_admin': is_admin
+            'is_admin': is_admin,
+            'otherID': otherID
         }
         return render(request, 'message.html', context=context)
     

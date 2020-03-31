@@ -4,24 +4,27 @@
     <div class="row">
         <div class="col-6">
             <div class="title" style="display: flex;">
-                <h1>{{course.courseCode}}:
-                {{course.courseName}}</h1>
+                <h1 role="heading" aria-level="1">
+                    {{course.courseCode}}:
+                    {{course.courseName}}
+                </h1>
             </div>
         </div>
-        <div class="col-6" style="display: flex;">           
+        <div class="col-6" style="display: flex;">
+            <div class='action-buttons btn-group-vertical'>
             <form action="/courses/{{course.courseCode}}" method="post" style="margin-left: auto">
                 {% csrf_token %}
                     {% if subscribed %}
-                        <button type="submit" name="code" value="{{course.courseCode}}" class="btn btn-danger">
+                        <button type="submit" name="code" value="{{course.courseCode}}" class="btn btn-danger" role="button">
                         Remove from your courses
                     {% else %}
-                        <button type="submit" name="code" value="{{course.courseCode}}" class="btn btn-primary">
+                        <button type="submit" name="code" value="{{course.courseCode}}" class="btn btn-primary" role="button">
                         Add to your courses
                     {% endif %}
                 </button>
             </form>
             {% if is_admin %}
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adminModal">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#adminModal" role="button">
                Admin Remove Course
             </button>
             <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel" aria-hidden="true">
@@ -38,7 +41,7 @@
                         Are you sure you want to remove <br><b>{{course.courseCode}}: {{course.courseName}} ?</b><br>
                         This action <b>cannot </b> be undone.
                     </p>
-                    <form action="/admin/{{course.id}}" method="post">                        
+                    <form action="/admin/{{course.id}}" method="post" role="form" aria-label="Remove Course">                        
                         <input id="postType" type="hidden" name='postType' value="removeCourse">
                         <input type="submit" value="Remove" class="btn btn-danger">
                         <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
@@ -50,23 +53,23 @@
               </div>
             </div>
           </div>
-
+        </div>           
         </div>
             {% endif %}
         </div>
     </div>
     {% else %}
-        <h1>Course Not Found</h1>
+        <h1 role="heading">Course Not Found</h1>
     {% endif %}
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" >
         <li class="nav-item">
-            <a class="nav-link active" id="discussion-tab" data-toggle="tab" href="#discussion" role="tab" aria-controls="discussion" aria-selected="true">Discussion</a>
+            <a class="nav-link active" id="discussion-tab" data-toggle="tab" href="#discussion" role="tab" aria-controls="discussion" aria-selected="true" tab-index="0">Discussion</a>
         </li>
          <li class="nav-item">
-            <a class="nav-link" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Collabs</a>
+            <a class="nav-link" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false" tab-index="1">Collabs</a>
         </li>
          <li class="nav-item">
-            <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
+            <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false" tab-index="2">Members</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -115,7 +118,7 @@
 
         </div>
         <div class="tab-pane show" id="resources" role="tabpanel" aria-labelledby="resources-tab">
-            <div class="container">
+            <div class="container content">
             {% if resources %}
                 <div class="row" style="margin-top:2rem">
                     {% for resource in resources %}
@@ -178,29 +181,24 @@
                         </div>
                         {% csrf_token %}
                     </form>
-                </div>
-                
-                
+                </div>                
               </div>
             </div>
           </div>
-
         </div>
         <div class="tab-pane show" id="members" role="tabpanel" aria-labelledby="members-tab">
             {% if profiles %}
-                <div class="member-group">
+                <div class="member-group" role="list">
                     {% for member in profiles %}
-                            <h3>
+                        <h3 role="listitem">
                             <a href="/profile/{{member.id}}" class="badge badge-primary">
                                 {{member.FirstName}} {{member.LastName}}
                             </a>
-                            </h3>
-                
+                        </h3>
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
-    </div>
-    
+    </div>    
 </body>
 {% endblock %}

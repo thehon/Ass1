@@ -4,8 +4,10 @@
 {% if members %}
 <h1>Messages</h1>
     {% for member in members %}
-        <ul class="list-group">
-            <li class="list-group-item"><a href="{{member.id}}">{{member.FirstName}} {{member.LastName}}</a></li>
+        <ul class="list-group messages-list">
+            <li class="list-group-item message"><a href="{{member.id}}">{{member.FirstName}} {{member.LastName}}</a>
+                <a href="{{member.id}}" class="btn btn-primary">View Messages</a>
+            </li>
         </ul>
     {% endfor %}
 {% endif %}

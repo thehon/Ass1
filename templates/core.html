@@ -11,7 +11,7 @@
 <body>
 <div class="container" style='max-width: 1200px;'>
 {% if user.is_authenticated %}
-    <ul class="nav nav-pills nav-fill" style="margin-top:1rem; margin-bottom: 2rem;">
+    <ul class="nav nav-pills nav-fill" style="margin-top:1rem; margin-bottom: 2rem;" role="navigation" aria-label='main'>
         <li class="nav-item">
           <a class="nav-link {% if active == 'home'%} active {% endif %}" href="/">
             Home
@@ -43,7 +43,7 @@
     {% else %}
         
     {% endif %} 
-<div class="container-fluid">
+<div class="container-fluid" role="main">
   {% block content %}
   {% endblock %}
 </div>

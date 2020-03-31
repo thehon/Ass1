@@ -4,14 +4,13 @@
     <div class="row">
         <div class="col-4">
             <div class="card">
-                
                 {% if self %}
-                    <h5>You are logged in as: {{profile.FirstName}} {{profile.LastName}}</h5>
+                    <h5 >You are logged in as: {{profile.FirstName}} {{profile.LastName}}</h5>
                     <a href="/logout">Logout</a>
                 {% else %}
-                    <h5>{{profile.FirstName}} {{profile.LastName}}</h5>
+                    <h5 role="heading">{{profile.FirstName}} {{profile.LastName}}</h5>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageModal" role="button">
                             Send Message
                         </button>
                         <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -49,13 +48,13 @@
 <div class="card">
 </div>
 {% if courses %}
-        <div class="container">
+        <div class="container content" >
             {% if self %}
                 <h1>Your Courses</h1>
             {% endif %}
-            <div class="row">
+            <div class="row" role="list">
                 {% for course in courses %}
-                    <div class="col col-md-4 col-sm-6">
+                    <div class="col col-md-4 col-sm-6" role="listitem">
                         <div class="card" style="text-align: center">
                             <div class="card-content">
                                 <a href="/courses/{{course.courseCode}}">

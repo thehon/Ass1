@@ -14,8 +14,8 @@
         <div class="tab-pane show active" id="add-admin" role="tabpanel" aria-labelledby="add-admin-tab">
             {% if profiles %}
                 {% for profile in profiles %}
-                    <ul class="list-group">
-                        <li class="list-group-item profile">
+                    <ul class="list-group" role="list">
+                        <li class="list-group-item profile" role="listitem">
                             <div class="profile-body">
                                 {{profile.FirstName}} {{profile.LastName}}
                             </div>
@@ -38,7 +38,7 @@
        
         <div class="tab-pane show" id="add-course" role="tabpanel" aria-labelledby="add-course-tab">
             <div class="card">
-            <form action="/admin/1" method="post">                        
+            <form action="/admin/1" method="post" role="form">                        
                 <input id="postType" type="hidden" name='postType' value="addCourse">                                
                 <div class="form-group">
                     <input type="text" placeholder="Course Code" name="courseCode">
@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <input type="text" placeholder="Course Name" name="courseName">
                 </div>
-                <input type="submit" value="Add Course" class="btn btn-success">                    
+                <input type="submit" value="Add Course" class="btn btn-success" role='button'>                    
             {% csrf_token %}
             </form>
             </div>

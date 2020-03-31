@@ -18,3 +18,40 @@
 .member-group h3 {
     margin-left: 1rem;
 }
+.nav {
+    margin-bottom: 1rem;
+}
+
+.content {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.action-buttons {
+    margin-left: auto; 
+
+}
+.action-buttons .btn{
+    margin-left: auto;
+    margin-bottom: 1rem;
+}
+
+.message {
+    display: flex;
+}
+.message .btn {
+    margin-left: auto;
+}
+
+.message-title-bar {
+    display: flex;
+    
+}
+
+.message-title-bar .btn {
+    margin-left: 1rem;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
