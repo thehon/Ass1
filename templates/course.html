@@ -109,10 +109,7 @@
                         </div>
                         {% csrf_token %}
                     </form>
-                </div>
-                
-                  
-                
+                </div>                                
               </div>
             </div>
           </div>
@@ -138,9 +135,11 @@
                                     {{resource.resourceDescription}}
                                 </p>
                                 <div class="btn-group">
+                                    {% if resource.resourceLink %}
                                     <a href="{{resource.resourceLink}}" class="btn btn-primary" target="blank">
                                         View Link
                                     </a>
+                                    {% endif %}
                                     <a href="/courses/{{course.courseCode}}/{{resource.id}}" class="btn btn-secondary">
                                         View Discussion
                                     </a>

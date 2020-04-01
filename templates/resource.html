@@ -8,9 +8,11 @@
         <p class="card-text">
             {{ resource.resourceDescription}}        
         </p>
+        {% if resource.resourceLink %}
         <a href="{{resource.resourceLink}}" target='_blank'>
             Resource Link
         </a>
+        {% endif %}
     </div>    
 </div>
 <div class="container-fluid">

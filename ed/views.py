@@ -27,7 +27,7 @@ def CourseSearch(request):
     slug = request.POST['search']
     
     try:
-        queryset = Course.objects.filter(courseName__icontains=slug)
+        queryset = Course.objects.filter(Q(courseName__icontains=slug) | Q(courseCode__icontains=slug))
         print('queryset: ', queryset)
         courses = queryset.all()
     except:
@@ -195,7 +195,6 @@ def loginView(request):
     username = request.POST.get('username',False)
     password = request.POST.get('password',False)
     error = ''
-    print('username: ', username)
     if not username:
         error = 'Please enter a username'
         context = {'error': error}
@@ -205,13 +204,27 @@ def loginView(request):
         context = {'error': error}
         return render(request, 'login.html', context=context)
     user = authenticate(request, username=username, password=password)
-
+    
     if user is not None:
         login(request,user)
-        return render(request, 'index.html')
+        p = Profile.objects.get(user = user)
+        if p.is_admin:
+            is_admin = True
+        else:
+            is_admin = False
+        courses = MemberShip.objects.filter(person=p)
+        courses = courses.values_list('course', flat=True)
+        courseItems = Course.objects.filter(id__in=courses)
+        context = {
+            'active': 'home',
+            'courses': courseItems.all(),
+            'is_admin': is_admin
+        }
+        return render(request, 'index.html', context=context)
     else:
         error = "Couldn't authenticate you. Try again"
         context = {
+
             'error': error
         }
         return render(request, 'login.html', context=context)
@@ -323,7 +336,7 @@ def messages(request):
     profile = Profile.objects.get(user=request.user)
     chatmemberships = ChatMembership.objects.filter(person=profile)
     chatmemberships = chatmemberships.values_list('group', flat=True)
-
+    
     groups = Group.objects.filter(id__in=chatmemberships)
     #groups = groups profile is apart of
     members = groups.values_list('members', flat=True)    
@@ -596,7 +609,7 @@ def handleVote(request, id):
         if votetype == 'downvote':
             comment.downvote = comment.downvote + 1
         else:
-            comment.upbote = comment.upvote + 1
+            comment.upvote = comment.upvote + 1
     resource = Resource.objects.get(id=id)
     is_admin = False
     p = Profile.objects.get(user=request.user)
@@ -613,4 +626,4 @@ def handleVote(request, id):
         'is_admin': is_admin
     }
     return render(request, 'resource.html', context=context)
-    
+
