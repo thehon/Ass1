@@ -5,7 +5,7 @@
     <h1>Admin</h1>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="add-admin-tab" data-toggle="tab" href="#add-admin" role="tab" aria-controls="discussion" aria-selected="true">Add Admin</a>
+            <a class="nav-link active" id="add-admin-tab" data-toggle="tab" href="#add-admin" role="tab" aria-controls="add-admin" aria-selected="true">Add Admin</a>
         </li>
             <li class="nav-item">
             <a class="nav-link" id="add-course-tab" data-toggle="tab" href="#add-course" role="tab" aria-controls="add-course" aria-selected="false">Add Course</a>
@@ -22,7 +22,7 @@
                             </div>
                             <div class="message-sender">
                                 <form action="/admin/{{profile.id}}" method="post">                        
-                                    <input id="postType" type="hidden" name='postType' value="addAdmin">
+                                    <input id="{{profile.id}}" type="hidden" name='postType' value="addAdmin">
                                     {% if profile.is_admin %}
                                         <input type="submit" value="Remove Admin" class="btn btn-danger">
                                     {% else %}

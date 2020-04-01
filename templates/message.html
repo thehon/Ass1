@@ -2,7 +2,7 @@
 {% block content %}
     {% if messages %}
     <div class="message-title-bar">
-        <h1 role="heading">
+        <h1 role="heading" aria-label="Messages with {{otherID.FirstName}} {{otherID.LastName}}" aria-level="1">
             Messages with
             <a href="/profile/{{otherID.id}}">
                 {{otherID.FirstName}} {{otherID.LastName}}
@@ -44,7 +44,7 @@
                 <textarea id="message" name="message" type="text" class="form-control"> </textarea>
             </div>
             <div class="form-group">              
-                <input type="submit" value="Send Message" style="width: auto" class="btn btn-primary" role="button">
+                <input type="submit" value="Send Message" style="width: auto" class="btn btn-primary" role="button" aria-label="Send Message">
             </div>
             {% if error %}
                 <p class="error">{{error}}</p>

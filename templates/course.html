@@ -61,6 +61,7 @@
     {% else %}
         <h1 role="heading">Course Not Found</h1>
     {% endif %}
+    <div role='navigation'> 
     <ul class="nav nav-tabs" id="myTab" role="tablist" >
         <li class="nav-item">
             <a class="nav-link active" id="discussion-tab" data-toggle="tab" href="#discussion" role="tab" aria-controls="discussion" aria-selected="true" tab-index="0">Discussion</a>
@@ -72,6 +73,7 @@
             <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false" tab-index="2">Members</a>
         </li>
     </ul>
+    </div>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane show active" id="discussion" role="tabpanel" aria-labelledby="discussion-tab">
             {% if discussions %}

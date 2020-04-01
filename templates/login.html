@@ -16,7 +16,7 @@
                         <input id="password" type="password" name="password" style="width:100%">
                     </div>
                 
-                    <input type="submit" value="Submit" class="btn btn-primary" role="button">
+                    <input type="submit" value="Submit" class="btn btn-primary" role="button" aria-label="submit">
                     {% csrf_token %}
                 </form>
                 {% if error %}
