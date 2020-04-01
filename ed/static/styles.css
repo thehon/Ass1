@@ -90,3 +90,7 @@ input {
     margin-right: 1rem;
     margin-left: 1rem;
 }
+
+.login-form {
+    padding: 1rem;
+}

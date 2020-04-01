@@ -222,7 +222,7 @@ def loginView(request):
         }
         return render(request, 'index.html', context=context)
     else:
-        error = "Couldn't authenticate you. Try again"
+        error = "Invalid login details"
         context = {
 
             'error': error

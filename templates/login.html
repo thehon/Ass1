@@ -5,7 +5,8 @@
         <div class="col col-lg-4"></div>
         <div class="col col-lg-4 col-12">
             <div class="card">
-                <form action="/login/" method="post" style="display: flex; flex-direction: column; align-items: center;" role="form">
+                <form action="/login/" method="post" style="display: flex; flex-direction: column; align-items: center;" role="form" class="login-form">
+                    <h4>Sign In</h4>
                     <div class="form-group">
                         <label for="username">Username: </label>
                         <input id="username" type="text" name="username" style="width:100%">
@@ -16,17 +17,19 @@
                         <input id="password" type="password" name="password" style="width:100%">
                     </div>
                 
-                    <input type="submit" value="Submit" class="btn btn-primary" role="button" aria-label="submit">
+                    <input type="submit" value="Login" class="btn btn-primary" role="button" aria-label="login">
                     {% csrf_token %}
                 </form>
                 {% if error %}
-                     <p class="error">
+                     <p class="error" style="text-align:center;">
                         {{error}}
                      </p>
                 {% endif %}
-                <a href="/register" style="margin-top: 2rem; text-align: center;">
-                    If you don't have an account. Please Register
-                </a>
+                <p>Don't have an account?
+                    <a href="/register" style="margin-top: 2rem; text-align: center;">
+                        Click here to register
+                    </a>
+                </p>
             </div>
         </div>
         <div class="col col-lg-5"></div>
