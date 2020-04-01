@@ -8,7 +8,7 @@
             <div class="form-group" style="display: flex;">
                 <label for="search" style="text-align: center">Search Courses</label>
                 <input id="search" name="search" type="search">
-            <input type="submit" value="Search" class="btn btn-primary" role="button">
+            <input type="submit" value="Search" class="btn btn-primary" role="search">
             </div>
         </form>
         </div>
@@ -21,12 +21,12 @@
                     <div class="col col-md-4 col-sm-6">
                         <div class="card" style="text-align: center">
                             <div class="card-content">
-                                <a href="/courses/{{course.courseCode}}">
+                                <a href="/courses/{{course.courseCode}}" aria-label="{{course.courseCode}}: {{course.courseName}}">
                                     <h4 class="card-title">
                                         {{course.courseCode}}: {{course.courseName}}
                                     </h4>
                                     <div class="btn-group">
-                                        <a href="/courses/{{course.courseCode}}" class="btn btn-primary">
+                                        <a href="/courses/{{course.courseCode}}" aria-label="view course" class="btn btn-primary">
                                             View Course
                                         </a>
                                     </div>
@@ -41,13 +41,13 @@
 
                 </div>
                 <div class="col col-lg-2">
-                    <a href="logout" class="btn btn-primary" role="button">
+                    <a href="logout" aria_label="logout" class="btn btn-primary" role="button">
                         Logout
                     </a>
                 </div>
             </div>
         </div>
         {% else %}
-        <h4>You haven't subscribed to any courses yet. Search for courses your enrolled in <a href="/courses">here</a></h4>
+        <h4>You haven't subscribed to any courses yet. Search for courses your enrolled in <a href="/courses" role="button" aria-label="View Courses">here</a></h4>
     {% endif %}
 {% endblock %}

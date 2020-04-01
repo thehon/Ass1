@@ -11,35 +11,37 @@
 <body>
 <div class="container" style='max-width: 1200px;'>
 {% if user.is_authenticated %}
-    <ul class="nav nav-pills nav-fill" style="margin-top:1rem; margin-bottom: 2rem;" role="navigation" aria-label='main'>
-        <li class="nav-item">
+<div role="navigation">
+    <ul class="nav nav-pills nav-fill" style="margin-top:1rem; margin-bottom: 2rem;" role="tablist" aria-label='main'>
+        <li class="nav-item" role="tab">
           <a class="nav-link {% if active == 'home'%} active {% endif %}" href="/">
             Home
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" role="tab">
           <a class="nav-link {% if active == 'courses'%} active {% endif %}" href="/courses">
             Courses
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" role="tab">
           <a class="nav-link {% if active == 'messages'%} active {% endif %}" href="/messages">
             Messages
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" role="tab">
           <a class="nav-link {% if active == 'profile'%} active {% endif %}" href="/profile">
             Profile
           </a>
         </li>
         {% if is_admin %}
-        <li class="nav-item">
+        <li class="nav-item" role="tab">
           <a class="nav-link {% if active == 'admin'%} active {% endif %}" href="/admin">
             Admin
           </a>
         </li>
         {% endif %}
     </ul>
+  </div>
     {% else %}
         
     {% endif %} 
