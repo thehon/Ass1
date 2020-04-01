@@ -2,17 +2,14 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
+        <div class="col col-lg-4"></div>
+        <div class="col col-lg-4 col-12">
             <div class="card" style="padding: 2rem;">
                 
                 <form action="/register" method="post" style="display: flex; flex-direction: column; align-items: center;">
                     <div class="form-group">
                         <label for="username">Username: </label>
                         <input id="username" type="text" name="username" style="width:100%">
-                    
-                    
-                    
                         <label for="email">Email: </label>
                         <input id="email" type="email" name="email" style="width:100%">
                     </div>
@@ -38,7 +35,7 @@
             </div>
             
         </div>
-        <div class="col-4"></div>
+        <div class="col col-lg-5"></div>
     </div>
 </div>
 {% endblock %}

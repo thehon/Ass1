@@ -65,7 +65,7 @@
 }
 
 .profile .message-sender {
-    margin-left: 1rem;
+    margin-left: auto;
 }
 input {
     border: 1px solid gray;
