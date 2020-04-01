@@ -1,12 +1,13 @@
 {% extends "core.html" %}
 {% block content %}
  <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 3rem">
+    <h4>Search Courses</h4>
     <div class="row">
         <div class="col-12">
         <form action="/courses/search" method="post" style="display: flex; justify-content: center">
             {% csrf_token %}
             <div class="search-box" style="display: flex; width:100%; border: 1px solid gray;">                
-                <input id="search" name="search" type="text" placeholder="Search courses by course name or course code" style=" width:100%" role='search' aria-label="Search Courses">
+                <input id="search" name="search" type="text" placeholder="Search courses" style=" width:100%" role='search' aria-label="Search Courses">
             </div>
             <input type="submit" value="Search Courses" style="width: auto" class="btn btn-primary">
         </form>

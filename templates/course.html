@@ -57,7 +57,7 @@
         </div>
             {% endif %}
         </div>
-    </div>
+    
     {% else %}
         <h1 role="heading">Course Not Found</h1>
     {% endif %}
@@ -137,11 +137,6 @@
                                     {{resource.resourceDescription}}
                                 </p>
                                 <div class="btn-group">
-                                    {% if resource.resourceLink %}
-                                    <a href="{{resource.resourceLink}}" class="btn btn-primary" target="blank">
-                                        View Link
-                                    </a>
-                                    {% endif %}
                                     <a href="/courses/{{course.courseCode}}/{{resource.id}}" class="btn btn-secondary">
                                         View Discussion
                                     </a>
@@ -155,7 +150,7 @@
             </div>
         {% if is_admin %}
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal">
-            Add Collab
+            Add Topic
         </button>
         {% endif %}
         <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="collabModalLabel" aria-hidden="true">
@@ -176,10 +171,6 @@
                         <div class="form-group">
                             <label for="resourcedesc">Collab Description:</label>
                             <textarea id="resourcedesc" class="form-control" type="text" name="resourcedesc"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="resourcelink">Resource Link:</label>
-                            <input id="resourcelink" class="form-control" type="url" name="resourcelink">
                         </div>
                         <div class="modal-footer">
                             <input id="coursecode" type="hidden" name='coursecode' value={{course.courseCode}}>

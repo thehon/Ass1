@@ -12,7 +12,7 @@
 <div class="container" style='max-width: 1200px;'>
 {% if user.is_authenticated %}
 <div role="navigation">
-    <ul class="nav nav-pills nav-fill" style="margin-top:1rem; margin-bottom: 2rem;" role="tablist" aria-label='main'>
+    <ul class="nav nav-pills nav-fill" style="margin-top:1rem; margin-bottom: 2rem; border-bottom: 1px solid gray; padding-bottom: 0.5rem;" role="tablist" aria-label='main'>
         <li class="nav-item" role="tab">
           <a class="nav-link {% if active == 'home'%} active {% endif %}" href="/">
             Home
@@ -40,12 +40,17 @@
           </a>
         </li>
         {% endif %}
+        <li class="nav-item" role="tab">
+          <a class="nav-link" href="/logout">
+            Logout
+          </a>
+        </li>
     </ul>
   </div>
     {% else %}
         
     {% endif %} 
-<div class="container-fluid" role="main">
+<div class="container-fluid" style="border: 1px solid gray; padding-top: 1rem; padding-bottom: 1rem;" role="main">
   {% block content %}
   {% endblock %}
 </div>

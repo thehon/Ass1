@@ -5,9 +5,9 @@
         <div class="col-12">
         <form action="/courses/search" method="post" role="search" aria-label="Sitewide" style="display: flex; justify-content: center">
             {% csrf_token %}
-            <div class="form-group" style="display: flex;">
-                <label for="search" style="text-align: center">Search Courses</label>
-                <input id="search" name="search" type="search">
+            <div class="form-group" style="display: flex; width:100%">
+                
+                <input id="search" name="search" placeholder="Search Courses" type="search" aria-label="search courses" style="width: 100%">
             <input type="submit" value="Search" class="btn btn-primary" role="search">
             </div>
         </form>
@@ -36,16 +36,7 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="row">
-                <div class="col col-lg-10">
-
-                </div>
-                <div class="col col-lg-2">
-                    <a href="logout" aria_label="logout" class="btn btn-primary" role="button">
-                        Logout
-                    </a>
-                </div>
-            </div>
+            
         </div>
         {% else %}
         <h4>You haven't subscribed to any courses yet. Search for courses your enrolled in <a href="/courses" role="button" aria-label="View Courses">here</a></h4>
