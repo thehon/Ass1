@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-4">
-            <div class="card">
+            <div class="card" style="margin-bottom: 1rem; padding: 1rem">
                 {% if self %}
                     <h5 >You are logged in as: {{profile.FirstName}} {{profile.LastName}}</h5>
                     
@@ -75,7 +75,7 @@
             </div>
         </div>
         {% else %}
-        <h4>Not subscribed to any courses</h4>
+        <h4 style="padding-left: 15px; margin-top: 1rem;">Not subscribed to any courses</h4>
     {% endif %}
 
 {% endblock %}
