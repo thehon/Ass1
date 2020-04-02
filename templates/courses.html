@@ -9,7 +9,7 @@
             <div class="search-box" style="display: flex; width:100%; border: 1px solid gray;">                
                 <input id="search" name="search" type="text" placeholder="Search courses" style=" width:100%" role='search' aria-label="Search Courses">
             </div>
-            <input type="submit" value="Search Courses" style="width: auto" class="btn btn-primary">
+            <input type="submit" value="Search Courses" style="width: auto; margin-left: 1rem;" class="btn btn-primary">
         </form>
         </div>
     </div>
@@ -19,7 +19,6 @@
     {% if courses %}
         <ul class="list-group">
         {% for course in courses %}
-            
             <li class="list-group-item" style="display: flex">
                 <a href="{{course.courseCode}}">{{course.courseCode}}: {{course.courseName}}</a>
                 <div class="ctas" style="margin-left: auto">

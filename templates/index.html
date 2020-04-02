@@ -8,7 +8,7 @@
             <div class="form-group" style="display: flex; width:100%">
                 
                 <input id="search" name="search" placeholder="Search Courses" type="search" aria-label="search courses" style="width: 100%">
-            <input type="submit" value="Search" class="btn btn-primary" role="search">
+            <input type="submit" value="Search" class="btn btn-primary" role="search" style='margin-left: 1rem;'>
             </div>
         </form>
         </div>
@@ -39,6 +39,6 @@
             
         </div>
         {% else %}
-        <h5 style="padding-left:15px;">You haven't added any courses yet. Add courses<a href="/courses" role="button" aria-label="View Courses">here</a></h5>
+        <h5 style="padding-left:15px;">You haven't added any courses yet. Add courses <a href="/courses" role="button" aria-label="View Courses">here</a></h5>
     {% endif %}
 {% endblock %}
