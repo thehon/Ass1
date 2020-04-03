@@ -24,9 +24,9 @@
                                 <form action="/admin/{{profile.id}}" method="post">                        
                                     <input id="{{profile.id}}" type="hidden" name='postType' value="addAdmin">
                                     {% if profile.is_admin %}
-                                        <input type="submit" value="Remove Admin" class="btn btn-danger">
+                                        <input type="submit" value="Remove Admin" class="btn btn-danger" style="width:8rem;">
                                     {% else %}
-                                        <input type="submit" value="Add Admin" class="btn btn-success">
+                                        <input type="submit" value="Add Admin" class="btn btn-success" style="width:8rem;">
                                     {% endif %}
                                 {% csrf_token %}
                                 </form>

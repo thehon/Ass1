@@ -84,18 +84,26 @@
     <div class="tab-content col-12" id="myTabContent">
         <div class="tab-pane show active" id="discussion" role="tabpanel" aria-labelledby="discussion-tab">
             {% if discussions %}
+            <ul class="list-group" style="margin-bottom: 1rem;">
                 {% for discussion in discussions %}
-                    <ul class="list-group">
+                    
                         <li class="list-group-item message">
+                            
                             <div class="message-body">
                                 {{discussion.body}}
                             </div>
                             <div class="message-sender">
                                 {{discussion.sender.FirstName}} {{discussion.sender.LastName}}
                             </div>
+                            {% if is_admin %}
+                                <div class="admin-delete btn btn-danger">
+                                    X
+                                </div>
+                            {% endif %}
                         </li>
-                    </ul>
+                    
                 {% endfor %}
+            </ul>
             {% endif %}
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#discussionModal">
             Add To Discussion
@@ -156,7 +164,7 @@
             {% endif %}
             </div>
         {% if is_admin %}
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal" style="margin-left:15px;">
             Add Topic
         </button>
         {% endif %}
@@ -195,9 +203,18 @@
                 <div class="member-group" role="list">
                     {% for member in profiles %}
                         <h3 role="listitem">
-                            <a href="/profile/{{member.id}}" class="badge badge-primary">
-                                {{member.FirstName}} {{member.LastName}}
-                            </a>
+                            {% if member.is_admin %}
+                            <div class="btn-group">
+                                <a href="/profile/{{member.id}}" class="badge badge-success">
+                                    {{member.FirstName}} {{member.LastName}} <span class="badge badge-light">Admin </span>
+                                </a>
+                            </div>
+                                
+                            {% else %}
+                                <a href="/profile/{{member.id}}" class="badge badge-primary">
+                                    {{member.FirstName}} {{member.LastName}}
+                                </a>
+                            {% endif %}
                         </h3>
                     {% endfor %}
                 </div>

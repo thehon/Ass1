@@ -111,3 +111,7 @@ input {
     border-bottom-right-radius: 0 !important;
     
 }
+
+.admin-delete {
+    margin-left: 1rem !important;
+}

@@ -469,7 +469,8 @@ def discussion(request,code):
         course = Course.objects.get(courseCode=code)
         discussion = request.POST.get('discussionbody', False)
         error = ''
-        if not discussion:
+        print('request: ',request.POST, discussion)
+        if discussion != False:
             d = Discussion(course=course, sender=p,body=request.POST['discussionbody'])
             d.save()
         else:

@@ -20,10 +20,10 @@
         <ul class='list-group'>
             {% for comment in comments %}
                 <li class="list-group-item" style="display: flex;">
-                    <div class="comment-body">
+                    <div class="comment-body" style="width: 50%; max-width: 50%;">
                     {{comment.body}}
                     </div> 
-                    <div class="comment-author" style="margin-left: auto;">
+                    <div class="comment-author" style="margin-left: auto; display: flex; align-items: center;">
                         <a href="/profile/{{comment.user.id}}">
                             {{comment.user.FirstName}} {{comment.user.LastName}}
                         </a>
@@ -48,6 +48,11 @@
                                 <input type="submit" value="downvote" class="btn btn-danger">
                             </form>
                         </div>
+                        {% if is_admin %}
+                            <div class="admin-delete btn btn-danger">
+                                X
+                            </div>
+                        {% endif %}
                     </div>
                 </li>
             {% endfor %}

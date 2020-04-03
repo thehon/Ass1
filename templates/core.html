@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Courses</title>
+  <title>{% if request.path == '/' %}
+    Home
+    {% else %}
+    {{active}}
+    {% endif %}
+
+  </title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
