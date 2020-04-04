@@ -172,13 +172,19 @@ def singleResource(request,code, id):
 def homeProfile(request):
     is_admin = False
     if not request.user.is_authenticated:
-        return render(request,'login.html')
+        context= {
+            'active': 'login'
+        }
+        return render(request,'login.html', context=context)
     p = Profile.objects.get(user=request.user)
     if p.is_admin:
         is_admin = True      
     user = request.user
     if (not request.user.is_authenticated):
-        return render(request,'login.html')
+        context= {
+            'active': 'login'
+        }
+        return render(request,'login.html', context=context)
     else:
         user = Profile.objects.get(user = user)
         courses = MemberShip.objects.filter(person=user)
@@ -197,11 +203,11 @@ def loginView(request):
     error = ''
     if not username:
         error = 'Please enter a username'
-        context = {'error': error}
+        context = {'error': error, 'active': 'login'}
         return render(request, 'login.html', context=context)
     if not password: 
         error = error + "Please enter a password"
-        context = {'error': error}
+        context = {'error': error, 'active': 'login'}
         return render(request, 'login.html', context=context)
     user = authenticate(request, username=username, password=password)
     
@@ -224,7 +230,7 @@ def loginView(request):
     else:
         error = "Invalid login details"
         context = {
-
+            'active': 'login',
             'error': error
         }
         return render(request, 'login.html', context=context)
@@ -235,7 +241,7 @@ def register(request):
         error = ""
         if not username:
             error = 'Please enter a username'
-            context = { 'error': error}
+            context = { 'error': error, 'active': 'register'}
             return render(request, 'register.html', context=context)    
 
         firstName = request.POST.get('firstname',False)
@@ -255,7 +261,7 @@ def register(request):
         if not password:
             error = 'please enter a password'
         if error != "":
-            context = { 'error': error}
+            context = { 'error': error, 'active': 'register'}
             return render(request, 'register.html', context=context)
         try:
             user = User.objects.create_user(username, email, password)

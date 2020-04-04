@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>{% if request.path == '/' %}
-    Home
-    {% else %}
-    {{active}}
+  <title>
+    Ed: 
+    {% if request.path == '/' %}
+      Home    
+      {% else %}
+      {{active}}
     {% endif %}
-
+    
   </title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.css' %}">
@@ -47,7 +49,7 @@
         </li>
         {% endif %}
         <li class="nav-item" role="tab" style="margin-top: auto;">
-          <a class="nav-link" style="background-color: gray; color: white;" href="/logout">
+          <a class="nav-link" style="background-color: #595959; color: white;" aria-label="logout" href="/logout">
             Logout
           </a>
         </li>
