@@ -1,6 +1,6 @@
 {% extends "core.html" %}
 {% block content %}
-    {% if messages %}
+    
     <div class="message-title-bar">
         <h1 role="heading" aria-label="Messages with {{otherID.FirstName}} {{otherID.LastName}}" aria-level="1">
             Messages with
@@ -12,6 +12,7 @@
             View Profile
         </a>
     </div>
+    {% if messages %}
     <ul class="list-group message-list" role="list">
         {% for message in messages %}
             
@@ -32,7 +33,7 @@
         {% else %}
         <ul class="list-group" role="list"> 
             <li class="list-group-item" role="listitem">
-                No messages yet. Maybe you should send some to a friend :)
+                No messages yet. 
             </li>
         </ul>
     {% endif %}

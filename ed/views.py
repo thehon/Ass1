@@ -656,3 +656,25 @@ def userDelete(request,id):
     }
     
     return render(request, 'index.html', context=context)            
+
+def searchProfiles(request):
+    user = Profile.objects.get(user=request.user)
+    is_admin = False
+    if user.is_admin:
+        is_admin = True
+    name = request.POST.get('search', False)
+    error = ''
+    if name != "":
+        profiles = Profile.objects.filter(Q(FirstName__icontains=name) | Q(LastName__icontains=name)).exclude(id=user.id)
+        profiles = profiles.all()
+    else:
+        profiles=[]
+        error = 'Please enter a name to search'
+
+    context = {
+        'is_admin': True,
+        'active' : 'messages',
+        'profiles': profiles,
+        'error': error
+    }
+    return render(request, 'messages.html', context=context)
