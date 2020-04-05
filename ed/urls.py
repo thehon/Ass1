@@ -11,6 +11,7 @@ urlpatterns = [
     path('courses/<slug:code>/<int:id>', views.singleResource, name='Resource'),
     path('courses/<slug:code>/resource', views.addResource, name='add Resource'),
     path('courses/<slug:code>/discussion', views.discussion, name="Discussion"),
+    path('courses/<slug:code>/discussion/<int:id>', views.deleteDiscussion, name="Discussion"),
     path('', views.homeProfile, name='home'),    
     path('register', views.register, name="Register"),
     path('accounts/', include('django.contrib.auth.urls')),

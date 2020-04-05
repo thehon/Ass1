@@ -93,12 +93,18 @@
                                 {{discussion.body}}
                             </div>
                             <div class="message-sender">
-                                {{discussion.sender.FirstName}} {{discussion.sender.LastName}}
+                                <a href="/profile/{{discussion.sender.id}}" aria-label="View Profile">
+                                    {{discussion.sender.FirstName}} {{discussion.sender.LastName}}
+                                </a>
                             </div>
                             {% if is_admin %}
-                                <div class="admin-delete btn btn-danger">
-                                    X
-                                </div>
+                            
+                                
+                                    <form action="/courses/{{course.courseCode}}/discussion/{{discussion.id}}" method="post">
+                                        {% csrf_token %}
+                                        <input type='submit' aria-label="remove comment" value="X" class="admin-delete btn btn-danger">
+                                    </form>
+                                
                             {% endif %}
                         </li>
                     

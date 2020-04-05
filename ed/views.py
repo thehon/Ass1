@@ -75,7 +75,7 @@ def singleCourse(request, code):
             'active': 'courses',
             'resources': resources,
             'subscribed': subscribed,
-            'profiles': profiles,
+            'profiles': profiles.all(),
             'discussions': discussions.all(),
             'is_admin': is_admin            
         }
@@ -101,11 +101,17 @@ def singleCourse(request, code):
             resources = resources.all()
         except:
             resources = None
+        members = MemberShip.objects.filter(course=course)
+        profileIds = members.values_list('person', flat=True)
+        profiles = Profile.objects.filter(id__in=profileIds)
+        discussions = Discussion.objects.filter(course=course)
         context = {
             'course': course,
             'active': 'courses',
             'resources' : resources,
             'subscribed': subscribed,
+            'profiles': profiles.all(),
+            'discussions': discussions.all(),
             'is_admin': is_admin
         }
         return render(request, 'course.html', context=context)
@@ -678,3 +684,31 @@ def searchProfiles(request):
         'error': error
     }
     return render(request, 'messages.html', context=context)
+
+def deleteDiscussion(request,id,code):
+    is_admin = False
+    p = Profile.objects.get(user=request.user)
+    if p.is_admin:
+        is_admin = True  
+    discussionComment = Discussion.objects.get(id=id)
+    course = Course.objects.get(id=discussionComment.course.id)
+    if discussionComment:
+        discussionComment.delete()
+    userProfile = Profile.objects.get(user=request.user)
+    exist = MemberShip.objects.filter(person=userProfile, course=course)
+    if exist:
+        subscribed = True
+    else:
+        subscribed = False
+    members = MemberShip.objects.filter(course=course)
+    profileIds = members.values_list('person', flat=True)
+    profiles = Profile.objects.filter(id__in=profileIds)
+    discussions = Discussion.objects.filter(course=course)
+    context = {
+        'course': course,
+        'active': 'courses',
+        'subscribed': subscribed,
+        'discussions': discussions.all(),
+        'is_admin': is_admin,        
+    }
+    return render(request, 'course.html', context=context)        
