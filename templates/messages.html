@@ -16,11 +16,11 @@
 </div>
 
 {% if profiles %}
-    <ul class="list-group messages-list">
+    <ul class="list-group messages-list" role="list">
         {% for profile in profiles %}
-            <li class="list-group-item message">
+            <li class="list-group-item message" role="listitem">
                 {{profile.FirstName}} {{profile.LastName}}
-                <a href="{{profile.id}}">Message</a>
+                <a class="btn btn-primary" href="{{profile.id}}" aria-label="Send Message">Message</a>
             </li>    
         {% endfor %}
     </ul>
