@@ -109,9 +109,9 @@ input {
     border-top-left-radius: 0.25rem !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    
 }
 
 .admin-delete {
     margin-left: 1rem !important;
+    height: 38px;
 }
