@@ -634,3 +634,25 @@ def handleVote(request, id):
     }
     return render(request, 'resource.html', context=context)
 
+def userDelete(request,id):
+    user = Profile.objects.get(user=request.user)
+    is_admin = False
+    message = ''
+    if user:
+        if user.is_admin:
+            is_admin = True
+            todelete = Profile.objects.get(id=id)
+            if todelete:
+                todelete.delete()
+                message = 'You have succesfully deleted ' + todelete.FirstName + " " +todelete.LastName + "'s account"
+    courses = MemberShip.objects.filter(person=user)
+    courses = courses.values_list('course', flat=True)
+    courseItems = Course.objects.filter(id__in=courses)
+    context = {
+        'active': 'home',
+        'courses': courseItems.all(),
+        'is_admin': is_admin,
+        'message': message
+    }
+    
+    return render(request, 'index.html', context=context)            

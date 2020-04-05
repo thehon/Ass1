@@ -1,12 +1,14 @@
 {% extends "core.html" %}
 {% block content %}
+{% if message %}
+    <h4>{{message}} </h4>
+{% endif %}
 <div class="container-fluid" style="margin-bottom: 2rem; margin-top: 2rem">
     <div class="row">
         <div class="col-12">
         <form action="/courses/search" method="post" role="search" aria-label="Sitewide" style="display: flex; justify-content: center">
             {% csrf_token %}
             <div class="form-group" style="display: flex; width:100%">
-                
                 <input id="search" name="search" placeholder="Search Courses" type="search" aria-label="search courses" style="width: 100%">
             <input type="submit" value="Search" class="btn btn-primary" role="search" style='margin-left: 1rem;'>
             </div>

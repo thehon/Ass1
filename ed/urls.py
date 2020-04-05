@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', views.adminPage, name="Admin Page"),
     path('admin/addme', views.addme, name="Admin Page"),
     path('logout/', views.userLogout, name="Logout"),
+    path('deleteuser/<int:id>', views.userDelete, name="Delete User"),
 ]

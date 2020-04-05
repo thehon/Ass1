@@ -13,6 +13,11 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageModal" role="button">
                             Send Message
                         </button>
+                        {% if is_admin %}                            
+                            <a type="button" class="btn btn-danger" role="button" href="/deleteuser/{{profile.id}}">
+                                Delete User
+                            </a>
+                        {% endif %}
                         <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
