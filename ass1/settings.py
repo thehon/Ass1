@@ -135,4 +135,6 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     '/static/',
 )
+#SECURE_SSL_REDIRECT = True
+
 django_heroku.settings(locals())

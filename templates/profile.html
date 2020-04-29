@@ -6,7 +6,19 @@
             <div class="card" style="margin-bottom: 1rem; padding: 1rem">
                 {% if self %}
                     <h5 >You are logged in as: {{profile.FirstName}} {{profile.LastName}}</h5>
-                    
+                    <form action="/profile/change" method="post">
+                        <div class="form-group">
+                            <label for="first-name">Change First Name</label>
+                            <input id="first-name" name="firstname" type="text" class="form-control">
+                            <label for="last-name">Change Last Name</label>
+                            <input id="last-name" name="lastname" type="text" class="form-control">
+
+                            <div class="form-group" style="margin-top:1rem;">              
+                                <input type="submit" value="Change Name" style="width: auto" class="btn btn-primary">
+                            </div>
+                            {% csrf_token %}
+                        </div>
+                    </form>
                 {% else %}
                     <h5 role="heading">{{profile.FirstName}} {{profile.LastName}}</h5>
                     <div class="btn-group">

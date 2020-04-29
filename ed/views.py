@@ -712,3 +712,30 @@ def deleteDiscussion(request,id,code):
         'is_admin': is_admin,        
     }
     return render(request, 'course.html', context=context)        
+
+def changeProfile(request):
+    
+    p = Profile.objects.get(user=request.user)
+    is_admin = False
+    if p.is_admin:
+        is_admin = True 
+        
+    firstname = request.POST.get('firstname', False)
+    if firstname:
+        p.FirstName = firstname
+    
+    lastname = request.POST.get('lastname', False)
+    if lastname:
+        p.LastName = lastname
+    p.save()
+    isself = True    
+    courses = MemberShip.objects.filter(person=p)
+    courses = courses.values_list('course', flat=True)
+    courseItems = Course.objects.filter(id__in=courses)
+    context = {
+        'self': isself,
+        'profile': p,
+        'courses': courseItems.all(),
+        'is_admin': is_admin
+    }
+    return render(request, 'profile.html', context=context)

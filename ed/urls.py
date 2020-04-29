@@ -20,6 +20,7 @@ urlpatterns = [
     path('messages/<int:id>', views.message, name="message"),
     path('messages/search', views.searchProfiles, name="search profiles"),      
     path('profile/', views.viewYourProfile, name="Your profile"),
+    path('profile/change', views.changeProfile, name="Change profile"),
     path('profile/<int:id>', views.viewProfile, name="profile"),
     path('admin/<int:id>', views.admin, name="profile"),
     path('admin/', views.adminPage, name="Admin Page"),
