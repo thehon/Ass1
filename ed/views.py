@@ -4,6 +4,8 @@ from .models import Course, Resource, Comment, Profile, MemberShip, ChatMembersh
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Q,F,Sum
+from .waf import cleanStrings, get_client_ip
+import requests
 # Create your views here.
 
 def CourseList(request):
@@ -25,10 +27,10 @@ def CourseSearch(request):
     if p.is_admin:
         is_admin = True  
     slug = request.POST['search']
-    
+    cleanedDic = cleanStrings('search', '/course', {'slug':slug}, str(request.user.username))
+    slug = cleanedDic['slug']
     try:
-        queryset = Course.objects.filter(Q(courseName__icontains=slug) | Q(courseCode__icontains=slug))
-        print('queryset: ', queryset)
+        queryset = Course.objects.filter(Q(courseName__icontains=slug) | Q(courseCode__icontains=slug))        
         courses = queryset.all()
     except:
         queryset = {}
@@ -151,6 +153,9 @@ def singleResource(request,code, id):
             resource = id
         else:
             body = request.POST.get('comment', False)
+            cleanedDic = cleanStrings('comment', '/course' + code, {'comment': body}, str(request.user.username))
+            if cleanedDic:
+                body = cleanedDic['comment']
             if not body:
                 error = 'Please enter a comment'                    
             resource = request.POST.get("resource", False)
@@ -215,6 +220,10 @@ def loginView(request):
         error = error + "Please enter a password"
         context = {'error': error, 'active': 'login'}
         return render(request, 'login.html', context=context)
+    cleanedDic = cleanStrings('login', 'login', {'username': username, 'password': password, 'ip':get_client_ip(request)})
+    if cleanedDic:
+        username = cleanedDic['username']
+        password = cleanedDic['password']
     user = authenticate(request, username=username, password=password)
     
     if user is not None:
@@ -270,6 +279,14 @@ def register(request):
             context = { 'error': error, 'active': 'register'}
             return render(request, 'register.html', context=context)
         try:
+            cleanedDic = cleanStrings('register', '/register', {'username': username, 'password':password, 'firstname':firstName, 'lastname':lastName, 'email':email})
+            if cleanedDic:
+                username = cleanedDic['username']
+                password = cleanedDic['password']
+                email = cleanedDic['email']
+                firstName = cleanedDic['firstname']
+                lastName = cleanedDic['lastname']            
+
             user = User.objects.create_user(username, email, password)
             P = Profile(user=user, FirstName=firstName, LastName=lastName, is_admin=False)
             P.save()
@@ -413,7 +430,10 @@ def message(request,id):
         if not messageBody or messageBody == ' ':
             error = 'Enter a message to send'
         else:
-            m = Message(sender=sender, body=request.POST['message'])
+            cleanedMessage = cleanStrings('message', '/message', {'messageBody': messageBody}, str(request.user.username))
+            if cleanedMessage:
+                messageBody = cleanedMessage['messageBody']
+            m = Message(sender=sender, body=messageBody)
             m.save()
             group.messages.add(m)
             group.save()
@@ -481,9 +501,11 @@ def discussion(request,code):
         course = Course.objects.get(courseCode=code)
         discussion = request.POST.get('discussionbody', False)
         error = ''
-        print('request: ',request.POST, discussion)
+        cleanedDic = cleanStrings('comment', '/' + course.courseCode, {'comment': discussion}, str(request.user.username))
+        if cleanedDic:
+            discussion = cleanedDic['comment']
         if discussion != False:
-            d = Discussion(course=course, sender=p,body=request.POST['discussionbody'])
+            d = Discussion(course=course, sender=p,body=discussion)
             d.save()
         else:
             error = "Please enter discussion content"
@@ -548,7 +570,7 @@ def admin(request, id):
                     course.delete()
                 return render(request, 'admin.html')
             if postType =='addCourse':
-                print('add Course')
+                
                 c = Course()
                 coursecode = request.POST.get('courseCode', False)
                 error = ''
@@ -558,6 +580,10 @@ def admin(request, id):
                 if not coursename:
                     error = 'please enter a course code'
                 if coursename and coursecode:
+                    cleanedDic = cleanStrings('addcourse', '/admin', {'coursename': coursename, 'coursecode':coursecode}, str(request.user.username))
+                    if cleanedDic:
+                        coursename = cleanedDic['coursename']
+                        coursecode = cleanedDic['coursecode']
                     c.courseName = coursename
                     c.courseCode = coursecode    
                     c.save()
@@ -721,12 +747,16 @@ def changeProfile(request):
         is_admin = True 
         
     firstname = request.POST.get('firstname', False)
+    lastname = request.POST.get('lastname', False)
+    cleanedDic = cleanStrings('changeprofile', '/profile', { 'lastname': lastname, 'firstname': firstname}, str(request.user.username))
+    if cleanedDic:
+        firstname = cleanedDic['firstname']
+        lastname = cleanedDic['lastname']
     if firstname:
         p.FirstName = firstname
-    
-    lastname = request.POST.get('lastname', False)
     if lastname:
         p.LastName = lastname
+    
     p.save()
     isself = True    
     courses = MemberShip.objects.filter(person=p)
