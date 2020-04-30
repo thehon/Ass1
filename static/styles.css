@@ -1,5 +1,117 @@
-.group {
-    height: 200px;
-    background-color: red;
+.message {
+    display: flex;
+    flex-direction: row;
+}
+.message .message-body {
+    flex: 60%;
 }
 
+.message .message-sender {
+    flex: 40%;
+    text-align: right;
+}
+
+.member-group {
+    display: flex;
+}
+
+.member-group h3 {
+    margin-left: 1rem;
+}
+.nav {
+    margin-bottom: 1rem;
+}
+
+.content {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.action-buttons {
+    margin-left: auto; 
+
+}
+.action-buttons .btn{
+    margin-left: auto;
+    margin-bottom: 1rem;
+}
+
+.message {
+    display: flex;
+}
+.message .btn {
+    margin-left: auto;
+}
+
+.message-title-bar {
+    display: flex;
+    
+}
+
+.message-title-bar .btn {
+    margin-left: 1rem;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+.profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-list {
+    width: 50%;
+}
+
+.profile .message-sender {
+    margin-left: auto;
+}
+input {
+    border: 1px solid gray;
+}
+
+.error {
+    color: #b01212;
+    font-weight: 700;
+}
+
+.comment-votes {
+    display: flex;
+    align-items: center;
+}
+
+.comment-votes .upvote {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.comment-votes .downvote {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.login-form {
+    padding: 1rem;
+}
+
+.col {
+    margin-bottom: 1rem;
+}
+
+.card {
+    border: 2px solid #03458c;
+}
+
+.btn-primary {
+    border: unset;
+    border: 0.25rem !important;
+    border-top-left-radius: 0.25rem !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.admin-delete {
+    margin-left: 1rem !important;
+    height: 38px;
+}
