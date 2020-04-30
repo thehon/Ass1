@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+
 #import django_heroku
 
 #import mimetypes
@@ -127,6 +128,8 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = '/ed'
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
 LOGIN_REDIRECT_URL = '/ed'
 STATICFILES_DIRS = (
 
@@ -138,3 +141,5 @@ STATICFILES_DIRS = (
 #SECURE_SSL_REDIRECT = True
 
 #django_heroku.settings(locals())
+#import django
+#django.setup()
