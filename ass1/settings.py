@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-#import django_heroku
+import django_heroku
 
 #import mimetypes
 #mimetypes.add_type("text/css", ".css", True)
@@ -140,6 +140,6 @@ STATICFILES_DIRS = (
 )
 #SECURE_SSL_REDIRECT = True
 
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
 #import django
 #django.setup()
