@@ -13,7 +13,7 @@ def PasswordRules(password):
     numdigits = (sum(1 for c in password if c.isdigit()))
     if (numdigits == 0):
         return ('Password needs at least 1 digit', False)
-    specialChars = ['!','”','#','$', '%','&',"'",'(',')','*','+',',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']' '^', '_'. '`', '{', '|', '}', '~']    
+    specialChars = ['!','”','#','$', '%','&',"'",'(',')','*','+',',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']' '^', '_', '`', '{', '|', '}', '~']    
     if (not any(s in specialChars for s in password)):
         return ("Password needs at least 1 special character: !”#$%&'()*+,-./:;<=>?@[\]^_`{|}~", False)
 
@@ -21,7 +21,7 @@ def PasswordRules(password):
     wordlist = loadwordlist()
     if (password.lower() in wordlist):
         return ("This password is banned - cant use it", False)
-    
+    return ('', True)
 def loadwordlist():
     f = open('twitter-banned.txt', 'r')
     bannedPWs = f.read().splitlines()

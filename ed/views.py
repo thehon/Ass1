@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q,F,Sum
 from .waf import cleanStrings, get_client_ip, get_waf_entries
 import requests
+from helpers import PasswordRules
 # Create your views here.
 
 def CourseList(request):
@@ -275,18 +276,23 @@ def register(request):
         password = request.POST.get('password',False)
         if not password:
             error = 'please enter a password'
+        
         if error != "":
             context = { 'error': error, 'active': 'register'}
             return render(request, 'register.html', context=context)
         try:
-            cleanedDic = cleanStrings('register', '/register', {'username': username, 'password':password, 'firstname':firstName, 'lastname':lastName, 'email':email})
+            cleanedDic = cleanStrings('register', '/register', {'username': username, 'password':password, 'firstname':firstName, 'lastname':lastName, 'email':email, 'ip': get_client_ip(request)})
+            print('cleanedDic: ', cleanedDic)
             if cleanedDic:
                 username = cleanedDic['username']
-                password = cleanedDic['pw']
+                password = cleanedDic['password']
                 email = cleanedDic['email']
                 firstName = cleanedDic['firstname']
                 lastName = cleanedDic['lastname']            
-
+            error, approved = PasswordRules(password)
+            if not approved:
+                context = { 'error': error}
+                return render(request, 'register.html',context=context)
             user = User.objects.create_user(username, email, password)
             P = Profile(user=user, FirstName=firstName, LastName=lastName, is_admin=False)
             P.save()
