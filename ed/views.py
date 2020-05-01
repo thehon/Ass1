@@ -282,7 +282,7 @@ def register(request):
             cleanedDic = cleanStrings('register', '/register', {'username': username, 'password':password, 'firstname':firstName, 'lastname':lastName, 'email':email})
             if cleanedDic:
                 username = cleanedDic['username']
-                password = cleanedDic['password']
+                password = cleanedDic['pw']
                 email = cleanedDic['email']
                 firstName = cleanedDic['firstname']
                 lastName = cleanedDic['lastname']            
@@ -294,10 +294,12 @@ def register(request):
         
             
         except Exception as e:
+            print('register exception: ', e)
             if e.__class__.__name__ == 'IntegrityError':
                 error = 'This username is taken - please select a different one'
                 context = { 'error': error}
             else:
+                print(e)
                 context = { 'error': e.__class__.__name__}
             return render(request, 'register.html', context=context)
         return render(request, 'index.html')
