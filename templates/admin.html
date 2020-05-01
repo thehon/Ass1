@@ -10,6 +10,10 @@
             <li class="nav-item" role="tab">
             <a class="nav-link" id="add-course-tab" data-toggle="tab" href="#add-course" role="tab" aria-controls="add-course" aria-selected="false">Add Course</a>
         </li>        
+    </li>
+    <li class="nav-item" role="tab">
+        <a class="nav-link" id="waf-tab" data-toggle="tab" href="#waf" role="tab" aria-controls="waf" aria-selected="false">WAF</a>
+    </li>        
     </ul> 
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane show active" id="add-admin" role="tabpanel" aria-labelledby="add-admin-tab">
@@ -59,6 +63,48 @@
                 {% endif %}
                 </div>
             </div>
+            
+        </div>
+
+        <div class="tab-pane show" id="waf" role="tabpanel" aria-labelledby="waf">
+            {% if wafs %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Username
+                        </th>
+                        <th scope="col">
+                            String (empty if only contains bad stuff)
+                        </th>
+                        <th scope="col">
+                            Path
+                        </th>
+                        <th scope="col">
+                            Time
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for waf in wafs %}
+                    <tr>
+                        <td>
+                            {{waf.0}}
+                        </td>
+                        <td>
+                            {{waf.1}}
+                        </td>
+                        <td>
+                            {{waf.2}}
+                        </td>
+                        <td>
+                            {{waf.3}}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
             
         </div>
     </div>       

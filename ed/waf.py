@@ -36,3 +36,11 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def get_waf_entries():
+    try:
+        wafentries = requests.get(getwafconfig() + '/waf/getEntries')
+        wafentries = wafentries.json()
+        return wafentries
+    except:
+        return {}

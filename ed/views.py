@@ -4,7 +4,7 @@ from .models import Course, Resource, Comment, Profile, MemberShip, ChatMembersh
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Q,F,Sum
-from .waf import cleanStrings, get_client_ip
+from .waf import cleanStrings, get_client_ip, get_waf_entries
 import requests
 # Create your views here.
 
@@ -616,10 +616,17 @@ def adminPage(request):
     p = Profile.objects.get(user=request.user)
     if p.is_admin:
         profiles = Profile.objects.all()
+        entries = get_waf_entries()
+        if entries:
+            entries = entries['entries']
+        else:
+            entries = {}
+        print(entries)
         context = {
             'active': 'admin',
             'is_admin': True,
-            'profiles': profiles
+            'profiles': profiles,
+            'wafs': entries
         }
         return render(request, 'admin.html', context=context)
     else:
