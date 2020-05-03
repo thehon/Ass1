@@ -1,7 +1,7 @@
 def PasswordRules(password):
     error = ''
     approved = True
-    if (len(password) < 8):
+    if (len(password) < 14):
         error = 'Password needs to be at least 8 characters'
         approved = False
         return (error, approved)

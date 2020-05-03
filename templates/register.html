@@ -28,7 +28,7 @@
                         <input id="password" type="password" name="password" style="width:100%">
                     </div>
                     <input type="submit" value="Register" class="btn btn-primary" aria-label="Register">
-                    <p>Password Requirments: 1 capital letter, 1 lowercase letter, more than 8 characters, at least 1 digit, at least 1 special character</p>
+                    <p>Password Requirments: 1 capital letter, 1 lowercase letter, more than 14 characters, at least 1 digit, at least 1 special character</p>
                     {% csrf_token %}
                     {% if error %}
                 <p class="error">{{error}}</p>
